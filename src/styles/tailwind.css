@@ -1,0 +1,10 @@
+@import 'tailwindcss' source(none);
+@source '../**/*.{js,ts,jsx,tsx}';
+
+@import 'tw-animate-css';
+
+/* 
+  Custom design utilities can be added here if needed. 
+  Remember that HTML/JSX utility markup goes directly inside your component files, 
+  not as raw text inside your CSS file.
+*/

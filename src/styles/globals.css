@@ -1,0 +1,20 @@
+/* src/styles/globals.css */
+
+/* Baseline HTML and Body resets for the new light theme */
+body {
+  background-color: #FFFFFF;
+  color: #0F172A;
+  font-family: 'Poppins', sans-serif; /* Matches your POPPINS constant */
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom interactive element styles for the light theme */
+a {
+  color: #1E5EC2; /* Uses your primary brand blue hex */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1753B2; /* Shifts to your deeper blue on hover */
+}

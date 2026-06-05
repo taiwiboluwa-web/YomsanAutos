@@ -1,0 +1,1224 @@
+import { useState, useMemo } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter } from "lucide-react";
+import yomsanAuto2 from "../imports/yomsan_auto__2_-1.png";
+import yomsanAuto3 from "../imports/yomsan_auto__3_-1.png";
+
+const WHATSAPP_NUMBER = "+2348033090335";
+const POPPINS = "'Poppins', sans-serif";
+const PLAYFAIR = "'Playfair Display', serif";
+
+const BLUE = "#1E5EC2";
+const BLUE_DARK = "#1753B2";
+const BLUE_LIGHT = "#2a70d8";
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const vehicles = [
+  {
+    id: 1,
+    brand: "BMW",
+    model: "M5 Competition",
+    year: 2023,
+    color: "Obsidian Black",
+    price: 115000,
+    type: "Sedan",
+    status: "Available",
+    mileage: 8200,
+    engine: "4.4L V8 Biturbo",
+    hp: 625,
+    image: "https://images.unsplash.com/photo-1603189617530-6d32306f57c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxCTVclMjBNNSUyMENvbXBldGl0aW9uJTIwYmxhY2slMjBsdXh1cnklMjBzZWRhbnxlbnwxfHx8fDE3ODA2NDQyNDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 2,
+    brand: "Porsche",
+    model: "Cayenne GTS",
+    year: 2022,
+    color: "Chalk White",
+    price: 98000,
+    type: "SUV",
+    status: "Available",
+    mileage: 14500,
+    engine: "4.0L V8 Twin-Turbo",
+    hp: 453,
+    image: "https://images.unsplash.com/photo-1684258401949-293a5d330340?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxQb3JzY2hlJTIwQ2F5ZW5uZSUyMHdoaXRlJTIwbHV4dXJ5JTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0MXww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 3,
+    brand: "Mercedes",
+    model: "AMG GT 63 S",
+    year: 2023,
+    color: "Iridium Silver",
+    price: 158000,
+    type: "Coupe",
+    status: "Reserved",
+    mileage: 3100,
+    engine: "4.0L V8 Biturbo",
+    hp: 630,
+    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxNZXJjZWRlcyUyMEFNRyUyMEdUJTIwc2lsdmVyJTIwY291cGV8ZW58MXx8fHwxNzgwNjQ0MjQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 4,
+    brand: "Mercedes",
+    model: "C300 AMG Line",
+    year: 2023,
+    color: "Polar White",
+    price: 48500,
+    type: "Sedan",
+    status: "Available",
+    mileage: 12300,
+    engine: "2.0L Turbo I4",
+    hp: 255,
+    image: "https://images.unsplash.com/photo-1605556816125-d752c226247b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxNZXJjZWRlcyUyMEMzMDAlMjB3aGl0ZSUyMHNlZGFufGVufDF8fHx8MTc4MDY0NDI0Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 5,
+    brand: "Lexus",
+    model: "ES 350 F Sport",
+    year: 2023,
+    color: "Sonic Titanium",
+    price: 52000,
+    type: "Sedan",
+    status: "Available",
+    mileage: 9800,
+    engine: "3.5L V6",
+    hp: 302,
+    image: "https://images.unsplash.com/photo-1702757329688-073f16ff8893?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxMZXh1cyUyMEVTJTIwMzUwJTIwbHV4dXJ5JTIwc2VkYW58ZW58MXx8fHwxNzgwNjQ0MjQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 6,
+    brand: "Toyota",
+    model: "Camry XSE",
+    year: 2024,
+    color: "Wind Chill Pearl",
+    price: 32500,
+    type: "Sedan",
+    status: "Available",
+    mileage: 5200,
+    engine: "2.5L I4",
+    hp: 203,
+    image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxUb3lvdGElMjBDYW1yeSUyMHdoaXRlJTIwc2VkYW58ZW58MXx8fHwxNzgwNjQ0MjQzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 7,
+    brand: "Lexus",
+    model: "RX 350 F Sport",
+    year: 2023,
+    color: "Atomic Silver",
+    price: 58000,
+    type: "SUV",
+    status: "Available",
+    mileage: 11400,
+    engine: "3.5L V6",
+    hp: 295,
+    image: "https://images.unsplash.com/photo-1707960189687-18a84ca15bae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxMZXh1cyUyMFJYJTIwMzUwJTIwc2lsdmVyJTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 8,
+    brand: "Mercedes",
+    model: "GLE 450 4MATIC",
+    year: 2023,
+    color: "Obsidian Black",
+    price: 82000,
+    type: "SUV",
+    status: "Available",
+    mileage: 8900,
+    engine: "3.0L I6 Turbo",
+    hp: 362,
+    image: "https://images.unsplash.com/photo-1732347700493-44e8e1e79c9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxNZXJjZWRlcyUyMEdMRSUyMGJsYWNrJTIwbHV4dXJ5JTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0NHww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 9,
+    brand: "Range Rover",
+    model: "Sport HSE",
+    year: 2023,
+    color: "Santorini Black",
+    price: 95000,
+    type: "SUV",
+    status: "Reserved",
+    mileage: 6700,
+    engine: "3.0L I6 Supercharged",
+    hp: 355,
+    image: "https://images.unsplash.com/photo-1677228447083-3245a27daf91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxSYW5nZSUyMFJvdmVyJTIwU3BvcnQlMjBibGFjayUyMFNVVnxlbnwxfHx8fDE3ODA2NDQyNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 10,
+    brand: "Toyota",
+    model: "Land Cruiser Prado",
+    year: 2023,
+    color: "Attitude Black",
+    price: 68000,
+    type: "SUV",
+    status: "Available",
+    mileage: 15200,
+    engine: "2.8L Turbo Diesel",
+    hp: 201,
+    image: "https://images.unsplash.com/photo-1654688554491-69d21d38fb91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxUb3lvdGElMjBMYW5kJTIwQ3J1aXNlciUyMFByYWRvJTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0NXww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 11,
+    brand: "Mercedes",
+    model: "AMG G63",
+    year: 2023,
+    color: "Designo Diamond White",
+    price: 185000,
+    type: "SUV",
+    status: "Available",
+    mileage: 3400,
+    engine: "4.0L V8 Biturbo",
+    hp: 577,
+    image: "https://images.unsplash.com/photo-1669234226129-8ede05b40eff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxNZXJjZWRlcyUyMEctV2Fnb24lMjB3aGl0ZSUyMGx1eHVyeSUyMFNVVnxlbnwxfHx8fDE3ODA2NDQyNDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 12,
+    brand: "Toyota",
+    model: "Highlander Limited",
+    year: 2023,
+    color: "Celestial Silver",
+    price: 45000,
+    type: "SUV",
+    status: "Available",
+    mileage: 18900,
+    engine: "3.5L V6",
+    hp: 295,
+    image: "https://images.unsplash.com/photo-1617600346256-af3cd5b16a4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxUb3lvdGElMjBIaWdobGFuZGVyJTIwc2lsdmVyJTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 13,
+    brand: "Lexus",
+    model: "NX 300 Luxury",
+    year: 2022,
+    color: "Sonic Quartz",
+    price: 42000,
+    type: "SUV",
+    status: "Available",
+    mileage: 21500,
+    engine: "2.0L Turbo I4",
+    hp: 235,
+    image: "https://images.unsplash.com/photo-1662944282088-c18952b39550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxMZXh1cyUyMFJYJTIwMzUwJTIwc2lsdmVyJTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 14,
+    brand: "Honda",
+    model: "Pilot Elite",
+    year: 2023,
+    color: "Modern Steel",
+    price: 48500,
+    type: "SUV",
+    status: "Available",
+    mileage: 16700,
+    engine: "3.5L V6",
+    hp: 280,
+    image: "https://images.unsplash.com/photo-1708148246994-b7b3c818090d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxIb25kYSUyMFBpbG90JTIwZmFtaWx5JTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 15,
+    brand: "Toyota",
+    model: "Hilux Revo Rogue",
+    year: 2023,
+    color: "Attitude Black",
+    price: 38000,
+    type: "Truck",
+    status: "Available",
+    mileage: 24300,
+    engine: "2.8L Turbo Diesel",
+    hp: 201,
+    image: "https://images.unsplash.com/photo-1657901381268-e19ce82ad260?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxUb3lvdGElMjBIaWx1eCUyMGJsYWNrJTIwcGlja3VwJTIwdHJ1Y2t8ZW58MXx8fHwxNzgwNjQ0MjQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 16,
+    brand: "Ford",
+    model: "F-150 Raptor",
+    year: 2023,
+    color: "Code Orange",
+    price: 78000,
+    type: "Truck",
+    status: "Reserved",
+    mileage: 8900,
+    engine: "3.5L EcoBoost V6",
+    hp: 450,
+    image: "https://images.unsplash.com/photo-1641974785913-63645632afe3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxGb3JkJTIwRi0xNTAlMjBSYXB0b3IlMjBvcmFuZ2UlMjB0cnVja3xlbnwxfHx8fDE3ODA2NDQyNDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 17,
+    brand: "Lexus",
+    model: "LX 570",
+    year: 2022,
+    color: "Starlight Black",
+    price: 92000,
+    type: "SUV",
+    status: "Available",
+    mileage: 19200,
+    engine: "5.7L V8",
+    hp: 383,
+    image: "https://images.unsplash.com/photo-1700884520248-92092bd21e63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxMZXh1cyUyMExYJTIwNTcwJTIwYmxhY2slMjBsdXh1cnklMjBTVVZ8ZW58MXx8fHwxNzgwNjQ0MjQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 18,
+    brand: "Mercedes",
+    model: "E350 AMG Line",
+    year: 2023,
+    color: "Selenite Grey",
+    price: 68000,
+    type: "Sedan",
+    status: "Available",
+    mileage: 7100,
+    engine: "2.0L Turbo I4",
+    hp: 255,
+    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxNZXJjZWRlcyUyMEFNRyUyMEdUJTIwc2lsdmVyJTIwY291cGV8ZW58MXx8fHwxNzgwNjQ0MjQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 19,
+    brand: "Honda",
+    model: "Accord Sport",
+    year: 2024,
+    color: "Platinum White",
+    price: 29500,
+    type: "Sedan",
+    status: "Available",
+    mileage: 4200,
+    engine: "1.5L Turbo I4",
+    hp: 192,
+    image: "https://images.unsplash.com/photo-1631547891859-184677884115?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxIb25kYSUyMEFjY29yZCUyMHdoaXRlJTIwc2VkYW58ZW58MXx8fHwxNzgwNjQ0MjQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 20,
+    brand: "Range Rover",
+    model: "Velar P250 R-Dynamic",
+    year: 2023,
+    color: "Firenze Red",
+    price: 72000,
+    type: "SUV",
+    status: "Available",
+    mileage: 10800,
+    engine: "2.0L Turbo I4",
+    hp: 247,
+    image: "https://images.unsplash.com/photo-1738432553451-029d47c6d413?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxSYW5nZSUyMFJvdmVyJTIwVmVsYXIlMjByZWQlMjBsdXh1cnklMjBTVVZ8ZW58MXx8fHwxNzgwNjQ0MjQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 21,
+    brand: "Toyota",
+    model: "Sienna Limited",
+    year: 2023,
+    color: "Celestial Silver",
+    price: 42000,
+    type: "Van",
+    status: "Available",
+    mileage: 13500,
+    engine: "2.5L Hybrid I4",
+    hp: 245,
+    image: "https://images.unsplash.com/photo-1617600346256-af3cd5b16a4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxUb3lvdGElMjBIaWdobGFuZGVyJTIwc2lsdmVyJTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 22,
+    brand: "Lexus",
+    model: "IS 350 F Sport",
+    year: 2023,
+    color: "Ultrasonic Blue",
+    price: 48000,
+    type: "Sedan",
+    status: "Sold",
+    mileage: 6800,
+    engine: "3.5L V6",
+    hp: 311,
+    image: "https://images.unsplash.com/photo-1664427321044-b4057f77777e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxMZXh1cyUyMEVTJTIwMzUwJTIwbHV4dXJ5JTIwc2VkYW58ZW58MXx8fHwxNzgwNjQ0MjQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 23,
+    brand: "Mercedes",
+    model: "GLS 450 4MATIC",
+    year: 2023,
+    color: "Polar White",
+    price: 98000,
+    type: "SUV",
+    status: "Available",
+    mileage: 9400,
+    engine: "3.0L I6 Turbo",
+    hp: 362,
+    image: "https://images.unsplash.com/photo-1669234226129-8ede05b40eff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxNZXJjZWRlcyUyMEdMUyUyMHdoaXRlJTIwbHV4dXJ5JTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0OXww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 24,
+    brand: "Toyota",
+    model: "Land Cruiser LC300",
+    year: 2024,
+    color: "Attitude Black",
+    price: 88000,
+    type: "SUV",
+    status: "Reserved",
+    mileage: 2800,
+    engine: "3.5L Twin-Turbo V6",
+    hp: 409,
+    image: "https://images.unsplash.com/photo-1654688554491-69d21d38fb91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxUb3lvdGElMjBMYW5kJTIwQ3J1aXNlciUyMFByYWRvJTIwU1VWfGVufDF8fHx8MTc4MDY0NDI0NXww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: 25,
+    brand: "Range Rover",
+    model: "Autobiography LWB",
+    year: 2023,
+    color: "Byron Blue",
+    price: 145000,
+    type: "SUV",
+    status: "Available",
+    mileage: 4500,
+    engine: "5.0L Supercharged V8",
+    hp: 518,
+    image: "https://images.unsplash.com/photo-1604054094723-3a949e4a8993?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxSYW5nZSUyMFJvdmVyJTIwU3BvcnQlMjBibGFjayUyMFNVVnxlbnwxfHx8fDE3ODA2NDQyNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+];
+
+const TICKER_ITEMS = [
+  { dot: "green", text: "BMW M5 Competition — Just Arrived · Pristine Condition" },
+  { dot: "red", text: "Mercedes S580 Maybach — NOW SOLD · Thank You" },
+  { dot: "yellow", text: "Porsche Cayenne GTS — Inspection Slots Open This Week" },
+  { dot: "green", text: "New Shipment Incoming · 3 Premium Units Expected" },
+  { dot: "green", text: "Audi RS7 Sportback — Price Reduced · Contact Us Today" },
+];
+
+const BRANDS = ["All", "BMW", "Mercedes", "Porsche", "Lexus", "Toyota", "Honda", "Range Rover", "Ford"];
+const TYPES = ["All", "Sedan", "SUV", "Coupe", "Convertible", "Truck", "Van"];
+const STATUSES = ["All", "Available", "Reserved"];
+
+type Vehicle = (typeof vehicles)[0];
+type FilterState = { brand: string; type: string; status: string };
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function formatPrice(price: number) {
+  return `$${price.toLocaleString("en-US")}`;
+}
+
+function formatMileage(km: number) {
+  return `${km.toLocaleString()} km`;
+}
+
+// ─── Status Badge ─────────────────────────────────────────────────────────────
+
+function StatusBadge({ status }: { status: string }) {
+  const cfg: Record<string, { bg: string; text: string; dot: string; pulse: boolean }> = {
+    Available: { bg: "bg-emerald-500/15", text: "text-emerald-400", dot: "bg-emerald-400", pulse: true },
+    Reserved: { bg: "bg-amber-500/15", text: "text-amber-400", dot: "bg-amber-400", pulse: false },
+    Sold: { bg: "bg-red-500/15", text: "text-red-400", dot: "bg-red-500", pulse: false },
+  };
+  const c = cfg[status] ?? cfg["Sold"];
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold tracking-[0.12em] uppercase ${c.bg} ${c.text}`}
+      style={{ fontFamily: POPPINS }}
+    >
+      <span className={`w-1.5 h-1.5 rounded-full ${c.dot} ${c.pulse ? "animate-pulse" : ""}`} />
+      {status}
+    </span>
+  );
+}
+
+// ─── Vehicle Card ─────────────────────────────────────────────────────────────
+
+function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicle) => void }) {
+  const canBook = vehicle.status === "Available";
+
+  return (
+    <div
+      className="group relative flex flex-col border border-[#2a2a2a] bg-[#0f0f0f] overflow-hidden"
+      style={{
+        transition: "transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out",
+        cursor: canBook ? "pointer" : "default",
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.transform = "scale(1.025)";
+        el.style.borderColor = BLUE;
+        el.style.boxShadow = `0 12px 40px rgba(30,94,194,0.14)`;
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.transform = "scale(1)";
+        el.style.borderColor = "#2a2a2a";
+        el.style.boxShadow = "none";
+      }}
+    >
+      {/* Image */}
+      <div className="relative aspect-[16/10] overflow-hidden bg-[#111]">
+        <img
+          src={vehicle.image}
+          alt={`${vehicle.year} ${vehicle.brand} ${vehicle.model}`}
+          loading="lazy"
+          className="w-full h-full object-cover"
+          style={{ transition: "transform 400ms ease-out" }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLImageElement).style.transform = "scale(1)";
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent opacity-70 pointer-events-none" />
+        <div className="absolute top-3 right-3 pointer-events-none">
+          <StatusBadge status={vehicle.status} />
+        </div>
+        <div
+          className="absolute bottom-3 left-3 text-[10px] text-[#666] font-semibold tracking-[0.2em] uppercase pointer-events-none"
+          style={{ fontFamily: POPPINS }}
+        >
+          {vehicle.year}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="p-5 flex flex-col gap-4 flex-1">
+        {/* Brand + Model */}
+        <div>
+          <div
+            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-1"
+            style={{ fontFamily: POPPINS, color: BLUE }}
+          >
+            {vehicle.brand}
+          </div>
+          <h3
+            className="text-[1.1rem] font-bold leading-tight text-white"
+            style={{ fontFamily: PLAYFAIR }}
+          >
+            {vehicle.model}
+          </h3>
+        </div>
+
+        {/* Specs row */}
+        <div className="grid grid-cols-3 gap-2 border-t border-[#2a2a2a] pt-4">
+          {[
+            { label: "Engine", value: vehicle.engine },
+            { label: "Power", value: `${vehicle.hp} HP` },
+            { label: "Mileage", value: formatMileage(vehicle.mileage) },
+          ].map((s) => (
+            <div key={s.label} className="flex flex-col gap-0.5">
+              <span
+                className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                style={{ fontFamily: POPPINS }}
+              >
+                {s.label}
+              </span>
+              <span className="text-[11px] text-[#bbb] font-medium" style={{ fontFamily: POPPINS }}>
+                {s.value}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Color + Price */}
+        <div className="flex items-end justify-between mt-auto">
+          <div className="flex flex-col gap-0.5">
+            <span
+              className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+              style={{ fontFamily: POPPINS }}
+            >
+              Colour
+            </span>
+            <span className="text-[11px] text-[#888]" style={{ fontFamily: POPPINS }}>
+              {vehicle.color}
+            </span>
+          </div>
+          <div
+            className="text-[1.15rem] font-black text-white text-right"
+            style={{ fontFamily: POPPINS }}
+          >
+            {formatPrice(vehicle.price)}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <button
+          onClick={() => canBook && onBook(vehicle)}
+          disabled={!canBook}
+          className={`w-full py-3 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-150 ${
+            canBook
+              ? "text-white active:scale-[0.97]"
+              : "bg-[#181818] text-[#3a3a3a] cursor-not-allowed"
+          }`}
+          style={
+            canBook
+              ? {
+                  fontFamily: POPPINS,
+                  backgroundColor: BLUE,
+                }
+              : { fontFamily: POPPINS }
+          }
+          onMouseEnter={(e) => {
+            if (canBook) (e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK;
+          }}
+          onMouseLeave={(e) => {
+            if (canBook) (e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE;
+          }}
+        >
+          {canBook ? "Book Inspection" : vehicle.status === "Reserved" ? "Currently Reserved" : "Sold"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Filter Sidebar ───────────────────────────────────────────────────────────
+
+function FilterSidebar({
+  filters,
+  onChange,
+  counts,
+}: {
+  filters: FilterState;
+  onChange: (f: FilterState) => void;
+  counts: { total: number; available: number };
+}) {
+  const hasFilters = filters.brand !== "All" || filters.type !== "All" || filters.status !== "All";
+
+  const Chip = ({
+    label,
+    active,
+    onClick,
+  }: {
+    label: string;
+    active: boolean;
+    onClick: () => void;
+  }) => (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1.5 text-[11px] font-medium tracking-wide border transition-all duration-150 ${
+        active
+          ? "text-white"
+          : "border-[#222] text-[#555] hover:border-[#3a3a3a] hover:text-[#888]"
+      }`}
+      style={
+        active
+          ? { fontFamily: POPPINS, borderColor: BLUE, backgroundColor: `${BLUE}1a`, color: "white" }
+          : { fontFamily: POPPINS }
+      }
+    >
+      {label}
+    </button>
+  );
+
+  const FilterGroup = ({
+    label,
+    options,
+    field,
+  }: {
+    label: string;
+    options: string[];
+    field: keyof FilterState;
+  }) => (
+    <div className="flex flex-col gap-2.5">
+      <div
+        className="text-[9px] text-[#444] uppercase tracking-[0.2em] font-semibold"
+        style={{ fontFamily: POPPINS }}
+      >
+        {label}
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((opt) => (
+          <Chip
+            key={opt}
+            label={opt}
+            active={filters[field] === opt}
+            onClick={() => onChange({ ...filters, [field]: opt })}
+          />
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="border border-[#1a1a1a] bg-[#0a0a0a] p-5 flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <div
+            className="text-[11px] font-bold text-white tracking-wide mb-0.5"
+            style={{ fontFamily: POPPINS }}
+          >
+            Filter
+          </div>
+          <div className="text-[10px] text-[#444]" style={{ fontFamily: POPPINS }}>
+            {counts.available} available · {counts.total} total
+          </div>
+        </div>
+        {hasFilters && (
+          <button
+            onClick={() => onChange({ brand: "All", type: "All", status: "All" })}
+            className="text-[9px] uppercase tracking-[0.15em] transition-colors"
+            style={{ fontFamily: POPPINS, color: BLUE }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.color = BLUE_LIGHT)
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.color = BLUE)
+            }
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      <div className="w-full h-px bg-[#1a1a1a]" />
+      <FilterGroup label="Brand" options={BRANDS} field="brand" />
+      <FilterGroup label="Body Type" options={TYPES} field="type" />
+      <FilterGroup label="Availability" options={STATUSES} field="status" />
+    </div>
+  );
+}
+
+// ─── Booking Modal ────────────────────────────────────────────────────────────
+
+function BookingModal({
+  vehicle,
+  onClose,
+}: {
+  vehicle: Vehicle | null;
+  onClose: () => void;
+}) {
+  const [form, setForm] = useState({ name: "", phone: "", date: "", notes: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const msg = encodeURIComponent(
+      `Hi Yomsan Motors!\n\nI would like to book an inspection.\n\n🚗 Vehicle: ${vehicle?.year} ${vehicle?.brand} ${vehicle?.model}\n👤 Name: ${form.name}\n📞 Phone: ${form.phone}\n📅 Preferred Date: ${form.date}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`
+    );
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    setSubmitted(true);
+  };
+
+  const handleClose = () => {
+    setForm({ name: "", phone: "", date: "", notes: "" });
+    setSubmitted(false);
+    onClose();
+  };
+
+  const today = new Date().toISOString().split("T")[0];
+
+  return (
+    <Dialog.Root open={!!vehicle} onOpenChange={(open) => !open && handleClose()}>
+      <Dialog.Portal>
+        <Dialog.Overlay
+          className="fixed inset-0 bg-black/75 z-50"
+          style={{ backdropFilter: "blur(6px)" }}
+        />
+        <Dialog.Content
+          className="fixed bottom-0 left-0 right-0 z-50 bg-[#0f0f0f] border-t border-[#2a2a2a] max-w-xl mx-auto"
+          style={{ animation: "slideUp 320ms cubic-bezier(0.23, 1, 0.32, 1)" }}
+          aria-describedby={undefined}
+        >
+          <div className="px-6 py-7 md:px-8">
+            {/* Header */}
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <div
+                  className="text-[9px] uppercase tracking-[0.25em] mb-1.5 font-semibold"
+                  style={{ fontFamily: POPPINS, color: BLUE }}
+                >
+                  Schedule Inspection
+                </div>
+                <Dialog.Title
+                  className="text-xl font-bold text-white leading-tight"
+                  style={{ fontFamily: PLAYFAIR }}
+                >
+                  {vehicle?.year} {vehicle?.brand} {vehicle?.model}
+                </Dialog.Title>
+              </div>
+              <Dialog.Close asChild>
+                <button className="text-[#444] hover:text-white transition-colors mt-0.5 p-1 -mr-1">
+                  <X size={16} />
+                </button>
+              </Dialog.Close>
+            </div>
+
+            {/* Rule */}
+            <div
+              className="h-px mb-6"
+              style={{
+                background: `linear-gradient(to right, ${BLUE}66, ${BLUE}1a, transparent)`,
+              }}
+            />
+
+            {submitted ? (
+              <div className="py-10 text-center flex flex-col items-center gap-4">
+                <div
+                  className="w-12 h-12 flex items-center justify-center text-white text-lg border"
+                  style={{ borderColor: BLUE, color: BLUE }}
+                >
+                  ✓
+                </div>
+                <div>
+                  <p className="text-white font-semibold mb-1" style={{ fontFamily: POPPINS }}>
+                    WhatsApp Opened
+                  </p>
+                  <p className="text-[#555] text-sm" style={{ fontFamily: POPPINS }}>
+                    Our team will confirm your slot shortly.
+                  </p>
+                </div>
+                <button
+                  onClick={handleClose}
+                  className="mt-2 px-6 py-2.5 text-white text-[11px] font-bold uppercase tracking-[0.15em] active:scale-[0.97] transition-all"
+                  style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK)
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE)
+                  }
+                >
+                  Close
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <label
+                      className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                      style={{ fontFamily: POPPINS }}
+                    >
+                      Full Name
+                    </label>
+                    <input
+                      required
+                      value={form.name}
+                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                      placeholder="Ahmad Razif"
+                      className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 placeholder:text-[#333] transition-colors focus:outline-none"
+                      style={{ fontFamily: POPPINS }}
+                      onFocus={(e) =>
+                        ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
+                      }
+                      onBlur={(e) =>
+                        ((e.currentTarget as HTMLInputElement).style.borderColor = "#2a2a2a")
+                      }
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label
+                      className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                      style={{ fontFamily: POPPINS }}
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      required
+                      value={form.phone}
+                      onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                      placeholder="+60 12-345 6789"
+                      className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 placeholder:text-[#333] transition-colors focus:outline-none"
+                      style={{ fontFamily: POPPINS }}
+                      onFocus={(e) =>
+                        ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
+                      }
+                      onBlur={(e) =>
+                        ((e.currentTarget as HTMLInputElement).style.borderColor = "#2a2a2a")
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                    style={{ fontFamily: POPPINS }}
+                  >
+                    Preferred Inspection Date
+                  </label>
+                  <input
+                    required
+                    type="date"
+                    value={form.date}
+                    min={today}
+                    onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
+                    className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 transition-colors focus:outline-none [color-scheme:dark]"
+                    style={{ fontFamily: POPPINS }}
+                    onFocus={(e) =>
+                      ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
+                    }
+                    onBlur={(e) =>
+                      ((e.currentTarget as HTMLInputElement).style.borderColor = "#2a2a2a")
+                    }
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                    style={{ fontFamily: POPPINS }}
+                  >
+                    Additional Notes{" "}
+                    <span className="text-[#2a2a2a] normal-case tracking-normal">(optional)</span>
+                  </label>
+                  <textarea
+                    value={form.notes}
+                    onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                    placeholder="Any specific requests or questions..."
+                    rows={2}
+                    className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 placeholder:text-[#333] transition-colors resize-none focus:outline-none"
+                    style={{ fontFamily: POPPINS }}
+                    onFocus={(e) =>
+                      ((e.currentTarget as HTMLTextAreaElement).style.borderColor = BLUE)
+                    }
+                    onBlur={(e) =>
+                      ((e.currentTarget as HTMLTextAreaElement).style.borderColor = "#2a2a2a")
+                    }
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-1 w-full py-3.5 text-white text-[11px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-150"
+                  style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK)
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE)
+                  }
+                >
+                  <MessageCircle size={14} />
+                  Continue via WhatsApp
+                </button>
+              </form>
+            )}
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+// ─── App ──────────────────────────────────────────────────────────────────────
+
+export default function App() {
+  const [filters, setFilters] = useState<FilterState>({ brand: "All", type: "All", status: "All" });
+  const [bookingVehicle, setBookingVehicle] = useState<Vehicle | null>(null);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const filteredVehicles = useMemo(() => {
+    return vehicles.filter((v) => {
+      if (filters.brand !== "All" && v.brand !== filters.brand) return false;
+      if (filters.type !== "All" && v.type !== filters.type) return false;
+      if (filters.status !== "All" && v.status !== filters.status) return false;
+      return true;
+    });
+  }, [filters]);
+
+  const counts = {
+    total: vehicles.length,
+    available: vehicles.filter((v) => v.status === "Available").length,
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: POPPINS }}>
+      <style>{`
+        @keyframes slideUp {
+          from { transform: translateY(100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ticker-track {
+          display: flex;
+          white-space: nowrap;
+          animation: marquee 42s linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ticker-track { animation: none; }
+        }
+      `}</style>
+
+      {/* ── Showroom Ticker ── */}
+      <div
+        className="overflow-hidden border-b py-2.5"
+        style={{
+          borderColor: `${BLUE}26`,
+          backgroundColor: `${BLUE}0d`,
+        }}
+      >
+        <div className="ticker-track">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-2 px-8 text-[10px] uppercase tracking-[0.18em] font-semibold"
+              style={{ color: BLUE }}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                  item.dot === "green"
+                    ? "bg-emerald-400"
+                    : item.dot === "red"
+                    ? "bg-red-400"
+                    : "bg-amber-400"
+                }`}
+              />
+              {item.text}
+              <span className="ml-6 text-[#2a2a2a] font-thin">|</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Navigation ── */}
+      <nav className="sticky top-0 z-40 border-b border-[#151515] bg-[#0a0a0a]/96 backdrop-blur-sm">
+        <div className="max-w-[1380px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
+          {/* Logo */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <img
+              src={yomsanAuto3}
+              alt="Yomsan Motors"
+              className="h-14 w-auto object-contain"
+            />
+          </div>
+
+          {/* Nav links */}
+          <div className="hidden md:flex items-center gap-7">
+            {["Inventory", "Services", "About", "Contact"].map((item) => (
+              <a
+                key={item}
+                href="#inventory"
+                className="text-[12px] text-[#555] hover:text-white transition-colors tracking-[0.05em]"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+
+          {/* WhatsApp CTA */}
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 bg-[#25D366] text-white px-4 py-2 text-[11px] font-bold tracking-[0.08em] hover:bg-[#22c55e] active:scale-[0.97] transition-all duration-150 flex-shrink-0"
+            style={{ fontFamily: POPPINS }}
+          >
+            <MessageCircle size={12} />
+            WhatsApp Us
+          </a>
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <section className="max-w-[1380px] mx-auto px-6 pt-10 pb-14">
+        <div className="grid md:grid-cols-[3fr_2fr] border border-[#1a1a1a] min-h-[460px]">
+          {/* Left — Hero Image */}
+          <div className="relative overflow-hidden bg-[#111] min-h-[300px]">
+            <img
+              src="https://images.unsplash.com/photo-1763165561886-a9391b2132c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
+              alt="Yomsan Motors Showroom"
+              className="w-full h-full object-cover"
+              style={{ minHeight: "300px" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0a0a] opacity-80 pointer-events-none hidden md:block" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/70 via-transparent to-transparent pointer-events-none" />
+
+            {/* Location info overlay */}
+            <div className="absolute bottom-5 left-5">
+              <div
+                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] mb-1.5"
+                style={{ fontFamily: POPPINS, color: BLUE }}
+              >
+                <MapPin size={9} />
+                Kuala Lumpur, Malaysia
+              </div>
+              <div className="flex items-center gap-4">
+                <span
+                  className="flex items-center gap-1.5 text-[10px] text-[#666]"
+                  style={{ fontFamily: POPPINS }}
+                >
+                  <Clock size={9} />
+                  Mon–Sat 9am–7pm
+                </span>
+                <span
+                  className="flex items-center gap-1.5 text-[10px] text-[#666]"
+                  style={{ fontFamily: POPPINS }}
+                >
+                  <Phone size={9} />
+                  +60 12-345 6789
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right — Content */}
+          <div className="flex flex-col justify-center gap-7 p-8 md:p-10 border-t md:border-t-0 md:border-l border-[#1a1a1a]">
+            <div>
+              <div
+                className="text-[9px] uppercase tracking-[0.35em] font-semibold mb-4"
+                style={{ fontFamily: POPPINS, color: BLUE }}
+              >
+                Premier Luxury Dealership
+              </div>
+              <h1
+                className="text-[2.6rem] font-black text-white leading-[1.08] mb-4"
+                style={{ fontFamily: POPPINS }}
+              >
+                Drive the
+                <br />
+                <em
+                  className="not-italic"
+                  style={{ fontFamily: PLAYFAIR, fontStyle: "italic", color: BLUE }}
+                >
+                  Extraordinary
+                </em>
+              </h1>
+              <p
+                className="text-[#555] text-[13px] leading-relaxed"
+                style={{ fontFamily: POPPINS, maxWidth: "26ch" }}
+              >
+                A curated collection of premium pre-owned vehicles. Every car rigorously certified before entering our showroom.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#1a1a1a]">
+              {[
+                { val: counts.available.toString(), label: "Available" },
+                { val: "100%", label: "Inspected" },
+                { val: "10+", label: "Yrs Trusted" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div
+                    className="text-2xl font-black text-white mb-0.5"
+                    style={{ fontFamily: POPPINS }}
+                  >
+                    {s.val}
+                  </div>
+                  <div
+                    className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                    style={{ fontFamily: POPPINS }}
+                  >
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-2.5">
+              <a
+                href="#inventory"
+                className="flex items-center justify-center gap-2 text-white py-3.5 text-[11px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
+                style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE_DARK)
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE)
+                }
+              >
+                Browse Inventory
+                <ChevronRight size={13} />
+              </a>
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                  "Hi Yomsan Motors! I'm interested in booking a showroom visit."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 border border-[#252525] text-[#555] py-3.5 text-[11px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] hover:text-[#aaa] transition-all duration-150"
+                style={{ fontFamily: POPPINS }}
+              >
+                <MessageCircle size={12} />
+                Contact Showroom
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Inventory ── */}
+      <section id="inventory" className="max-w-[1380px] mx-auto px-6 pb-24">
+        {/* Section Header */}
+        <div className="flex items-end justify-between pb-6 mb-8 border-b border-[#151515]">
+          <div>
+            <div
+              className="text-[9px] uppercase tracking-[0.3em] font-semibold mb-2"
+              style={{ fontFamily: POPPINS, color: BLUE }}
+            >
+              Current Stock
+            </div>
+            <h2
+              className="text-[1.4rem] font-black text-white flex items-baseline gap-3"
+              style={{ fontFamily: POPPINS }}
+            >
+              Our Inventory
+              <span className="text-sm font-normal text-[#3a3a3a]">
+                {filteredVehicles.length} / {vehicles.length}
+              </span>
+            </h2>
+          </div>
+          <button
+            className="md:hidden flex items-center gap-2 text-[11px] text-[#666] border border-[#222] px-3 py-2 hover:border-[#3a3a3a] hover:text-[#aaa] transition-all"
+            onClick={() => setMobileFiltersOpen((o) => !o)}
+            style={{ fontFamily: POPPINS }}
+          >
+            <Filter size={12} />
+            Filters
+          </button>
+        </div>
+
+        {/* Layout */}
+        <div className="flex gap-7 items-start">
+          {/* Sidebar */}
+          <aside
+            className={`w-52 flex-shrink-0 sticky top-[68px] ${
+              mobileFiltersOpen ? "block" : "hidden"
+            } md:block`}
+          >
+            <FilterSidebar filters={filters} onChange={setFilters} counts={counts} />
+          </aside>
+
+          {/* Grid */}
+          <div className="flex-1 min-w-0">
+            {filteredVehicles.length === 0 ? (
+              <div className="py-24 text-center flex flex-col items-center gap-4">
+                <div className="text-4xl text-[#222]">⊘</div>
+                <p className="text-[#444] text-sm" style={{ fontFamily: POPPINS }}>
+                  No vehicles match your current filters.
+                </p>
+                <button
+                  onClick={() => setFilters({ brand: "All", type: "All", status: "All" })}
+                  className="text-[11px] uppercase tracking-wide transition-colors"
+                  style={{ fontFamily: POPPINS, color: BLUE }}
+                >
+                  Clear all filters
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredVehicles.map((v) => (
+                  <VehicleCard key={v.id} vehicle={v} onBook={setBookingVehicle} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-[#151515] py-8 px-6">
+        <div className="max-w-[1380px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <img
+              src={yomsanAuto3}
+              alt="Yomsan Motors"
+              className="h-6 w-auto object-contain opacity-40"
+            />
+            <span className="text-[#333] text-[11px]" style={{ fontFamily: POPPINS }}>
+              © 2024 Yomsan Motors Sdn. Bhd. All rights reserved.
+            </span>
+          </div>
+          <div
+            className="text-[9px] text-[#2a2a2a] uppercase tracking-[0.2em]"
+            style={{ fontFamily: POPPINS }}
+          >
+            Premium · Certified · Trusted
+          </div>
+        </div>
+      </footer>
+
+      {/* ── Booking Modal ── */}
+      <BookingModal vehicle={bookingVehicle} onClose={() => setBookingVehicle(null)} />
+    </div>
+  );
+}
