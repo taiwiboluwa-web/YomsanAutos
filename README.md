@@ -1,7 +1,7 @@
 
-  # User dashboard
+  # yomsan autos
 
-  This is a code bundle for User dashboard. The original project is available at https://www.figma.com/design/5ODhAiJdNJHhxjckwXVBWb/User-dashboard.
+  This is a code bundle for yomsan autos. The original project is available at https://www.figma.com/design/5ODhAiJdNJHhxjckwXVBWb/yomsan-autos.
 
   ## Running the code
 
