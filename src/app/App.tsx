@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 import yomsanAuto2 from "../imports/yomsan_auto__2_-1.png";
 import yomsanAuto3 from "../imports/yomsan_auto__3_-1.png";
 
@@ -1219,6 +1220,9 @@ export default function App() {
 
       {/* ── Booking Modal ── */}
       <BookingModal vehicle={bookingVehicle} onClose={() => setBookingVehicle(null)} />
+      
+      {/* ── Vercel Web Analytics ── */}
+      <Analytics />
     </div>
   );
 }
