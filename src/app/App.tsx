@@ -560,7 +560,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
 
   return (
     <div
-      className="luxury-card group relative flex flex-col border-2 border-[#e2e8f0] dark:border-[#1e293b] bg-white dark:bg-[#131c2e] overflow-hidden rounded-lg shadow-lg dark:shadow-2xl hover:shadow-2xl dark:hover:shadow-[#1E5EC2]/20"
+      className="luxury-card liquid-glass group relative flex flex-col border-2 border-[#e2e8f0] dark:border-[#1e293b] overflow-hidden rounded-lg shadow-lg dark:shadow-2xl hover:shadow-2xl dark:hover:shadow-[#1E5EC2]/20"
       style={{
         transition: "transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out",
         cursor: canBook ? "pointer" : "default",
@@ -765,7 +765,7 @@ function FilterSidebar({
   );
 
   return (
-    <div className="border-2 border-[#e2e8f0] dark:border-[#1e293b] bg-white dark:bg-[#131c2e] p-5 flex flex-col gap-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300">
+    <div className="border-2 border-[#e2e8f0] dark:border-[#1e293b] liquid-glass-strong p-5 flex flex-col gap-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between">
         <div>
           <div
@@ -823,7 +823,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
   }, []);
 
   return (
-    <div className="grid md:grid-cols-[3fr_2fr] border-2 border-[#e2e8f0] dark:border-[#1e293b] min-h-[320px] rounded-xl overflow-hidden shadow-xl dark:shadow-2xl bg-white dark:bg-[#131c2e] transition-all duration-300">
+    <div className="grid md:grid-cols-[3fr_2fr] border-2 border-[#e2e8f0] dark:border-[#1e293b] min-h-[320px] rounded-xl overflow-hidden shadow-xl dark:shadow-2xl liquid-glass-strong transition-all duration-300">
       {/* Left — Hero Image Carousel */}
       <div className="relative overflow-hidden bg-[#f8f9fa] min-h-[220px]">
         <AnimatePresence mode="wait">
@@ -1009,7 +1009,7 @@ function BookingModal({
           style={{ backdropFilter: "blur(6px)" }}
         />
         <Dialog.Content
-          className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#131c2e] border-t-2 border-[#e2e8f0] dark:border-[#1e293b] max-w-xl mx-auto shadow-2xl dark:shadow-[#1E5EC2]/30 rounded-t-2xl transition-colors duration-300"
+          className="fixed bottom-0 left-0 right-0 z-50 liquid-glass-strong border-t-2 border-[#e2e8f0] dark:border-[#1e293b] max-w-xl mx-auto shadow-2xl dark:shadow-[#1E5EC2]/30 rounded-t-2xl transition-colors duration-300"
           style={{ animation: "slideUp 320ms cubic-bezier(0.23, 1, 0.32, 1)" }}
           aria-describedby={undefined}
         >
@@ -1269,6 +1269,68 @@ export default function App() {
         @media (prefers-reduced-motion: reduce) {
           .ticker-track, .luxury-card, .shimmer-effect { animation: none; }
         }
+
+        /* Glassmorphism Tier 1: Light */
+        .liquid-glass {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .liquid-glass::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1px;
+          background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            transparent 100%
+          );
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+        }
+
+        .dark .liquid-glass {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Glassmorphism Tier 2: Strong */
+        .liquid-glass-strong {
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .liquid-glass-strong::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1.5px;
+          background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 100%
+          );
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+        }
+
+        .dark .liquid-glass-strong {
+          background: rgba(255, 255, 255, 0.03);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
       `}</style>
 
       {/* ── Showroom Ticker ── */}
@@ -1303,7 +1365,7 @@ export default function App() {
       </div>
 
       {/* ── Navigation ── */}
-      <nav className="sticky top-0 z-40 border-b border-[#e2e8f0] dark:border-[#1e293b] bg-white/98 dark:bg-[#0b0f19]/98 backdrop-blur-xl shadow-sm dark:shadow-lg transition-colors duration-300">
+      <nav className="sticky top-0 z-40 border-b border-[#e2e8f0] dark:border-[#1e293b] liquid-glass-strong shadow-sm dark:shadow-lg transition-colors duration-300">
         <div className="max-w-[1380px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3 flex-shrink-0">
