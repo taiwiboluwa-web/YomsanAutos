@@ -1,6 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter } from "lucide-react";
+import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter, Sun, Moon } from "lucide-react";
 import yomsanAuto2 from "../imports/yomsan_auto__2_-1.png";
 import yomsanAuto3 from "../imports/yomsan_auto__3_-1.png";
 
@@ -365,6 +365,146 @@ const vehicles = [
     hp: 518,
     image: "https://images.unsplash.com/photo-1604054094723-3a949e4a8993?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxSYW5nZSUyMFJvdmVyJTIwU3BvcnQlMjBibGFjayUyMFNVVnxlbnwxfHx8fDE3ODA2NDQyNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
   },
+  {
+    id: 26,
+    brand: "Audi",
+    model: "RS7 Sportback",
+    year: 2023,
+    color: "Navarra Blue",
+    price: 128000,
+    type: "Sedan",
+    status: "Available",
+    mileage: 7500,
+    engine: "4.0L V8 TFSI",
+    hp: 591,
+    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 27,
+    brand: "Porsche",
+    model: "911 Carrera S",
+    year: 2023,
+    color: "GT Silver",
+    price: 138000,
+    type: "Coupe",
+    status: "Available",
+    mileage: 5200,
+    engine: "3.0L Twin-Turbo Flat-6",
+    hp: 443,
+    image: "https://images.unsplash.com/photo-1611821064430-beff4a725050?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 28,
+    brand: "BMW",
+    model: "X7 M60i",
+    year: 2024,
+    color: "Carbon Black",
+    price: 118000,
+    type: "SUV",
+    status: "Available",
+    mileage: 3800,
+    engine: "4.4L V8 Twin-Turbo",
+    hp: 523,
+    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 29,
+    brand: "Maserati",
+    model: "Levante Trofeo",
+    year: 2023,
+    color: "Blu Emozione",
+    price: 155000,
+    type: "SUV",
+    status: "Reserved",
+    mileage: 6100,
+    engine: "3.8L V8 Twin-Turbo",
+    hp: 580,
+    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 30,
+    brand: "Bentley",
+    model: "Bentayga V8",
+    year: 2023,
+    color: "Glacier White",
+    price: 215000,
+    type: "SUV",
+    status: "Available",
+    mileage: 4200,
+    engine: "4.0L V8 Twin-Turbo",
+    hp: 542,
+    image: "https://images.unsplash.com/photo-1563721911289-ada2924d66f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 31,
+    brand: "Aston Martin",
+    model: "DBX707",
+    year: 2024,
+    color: "Onyx Black",
+    price: 242000,
+    type: "SUV",
+    status: "Available",
+    mileage: 2100,
+    engine: "4.0L V8 Twin-Turbo",
+    hp: 697,
+    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 32,
+    brand: "Lamborghini",
+    model: "Urus Performante",
+    year: 2024,
+    color: "Arancio Borealis",
+    price: 268000,
+    type: "SUV",
+    status: "Available",
+    mileage: 1800,
+    engine: "4.0L V8 Twin-Turbo",
+    hp: 666,
+    image: "https://images.unsplash.com/photo-1621135802920-133df287f89c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 33,
+    brand: "Rolls-Royce",
+    model: "Cullinan Black Badge",
+    year: 2023,
+    color: "Black Diamond",
+    price: 385000,
+    type: "SUV",
+    status: "Reserved",
+    mileage: 3500,
+    engine: "6.75L V12 Twin-Turbo",
+    hp: 600,
+    image: "https://images.unsplash.com/photo-1563721911289-ada2924d66f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 34,
+    brand: "Ferrari",
+    model: "Purosangue",
+    year: 2024,
+    color: "Rosso Corsa",
+    price: 425000,
+    type: "SUV",
+    status: "Available",
+    mileage: 950,
+    engine: "6.5L V12",
+    hp: 715,
+    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
+  {
+    id: 35,
+    brand: "McLaren",
+    model: "GT",
+    year: 2023,
+    color: "Azores Orange",
+    price: 238000,
+    type: "Coupe",
+    status: "Available",
+    mileage: 4100,
+    engine: "4.0L V8 Twin-Turbo",
+    hp: 612,
+    image: "https://images.unsplash.com/photo-1619732528284-9307c5256291?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  },
 ];
 
 const TICKER_ITEMS = [
@@ -375,7 +515,7 @@ const TICKER_ITEMS = [
   { dot: "green", text: "Audi RS7 Sportback — Price Reduced · Contact Us Today" },
 ];
 
-const BRANDS = ["All", "BMW", "Mercedes", "Porsche", "Lexus", "Toyota", "Honda", "Range Rover", "Ford"];
+const BRANDS = ["All", "Aston Martin", "Audi", "Bentley", "BMW", "Ferrari", "Ford", "Honda", "Lamborghini", "Lexus", "Maserati", "McLaren", "Mercedes", "Porsche", "Range Rover", "Rolls-Royce", "Toyota"];
 const TYPES = ["All", "Sedan", "SUV", "Coupe", "Convertible", "Truck", "Van"];
 const STATUSES = ["All", "Available", "Reserved"];
 
@@ -419,7 +559,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
 
   return (
     <div
-      className="group relative flex flex-col border border-[#2a2a2a] bg-[#0f0f0f] overflow-hidden"
+      className="luxury-card group relative flex flex-col border-2 border-[#e2e8f0] dark:border-[#1e293b] bg-white dark:bg-[#131c2e] overflow-hidden rounded-lg shadow-lg dark:shadow-2xl hover:shadow-2xl dark:hover:shadow-[#1E5EC2]/20"
       style={{
         transition: "transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out",
         cursor: canBook ? "pointer" : "default",
@@ -438,7 +578,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
       }}
     >
       {/* Image */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-[#111]">
+      <div className="relative aspect-[16/10] overflow-hidden bg-[#f1f5f9]">
         <img
           src={vehicle.image}
           alt={`${vehicle.year} ${vehicle.brand} ${vehicle.model}`}
@@ -457,7 +597,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
           <StatusBadge status={vehicle.status} />
         </div>
         <div
-          className="absolute bottom-3 left-3 text-[10px] text-[#666] font-semibold tracking-[0.2em] uppercase pointer-events-none"
+          className="absolute bottom-3 left-3 text-[10px] text-[#64748b] font-semibold tracking-[0.2em] uppercase pointer-events-none"
           style={{ fontFamily: POPPINS }}
         >
           {vehicle.year}
@@ -475,7 +615,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
             {vehicle.brand}
           </div>
           <h3
-            className="text-[1.1rem] font-bold leading-tight text-white"
+            className="text-[1.1rem] font-bold leading-tight text-[#0f172a]"
             style={{ fontFamily: PLAYFAIR }}
           >
             {vehicle.model}
@@ -483,7 +623,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         </div>
 
         {/* Specs row */}
-        <div className="grid grid-cols-3 gap-2 border-t border-[#2a2a2a] pt-4">
+        <div className="grid grid-cols-3 gap-2 border-t border-[#e2e8f0] pt-4">
           {[
             { label: "Engine", value: vehicle.engine },
             { label: "Power", value: `${vehicle.hp} HP` },
@@ -491,12 +631,12 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
           ].map((s) => (
             <div key={s.label} className="flex flex-col gap-0.5">
               <span
-                className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
                 style={{ fontFamily: POPPINS }}
               >
                 {s.label}
               </span>
-              <span className="text-[11px] text-[#bbb] font-medium" style={{ fontFamily: POPPINS }}>
+              <span className="text-[11px] text-[#475569] font-medium" style={{ fontFamily: POPPINS }}>
                 {s.value}
               </span>
             </div>
@@ -507,17 +647,17 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         <div className="flex items-end justify-between mt-auto">
           <div className="flex flex-col gap-0.5">
             <span
-              className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+              className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
               style={{ fontFamily: POPPINS }}
             >
               Colour
             </span>
-            <span className="text-[11px] text-[#888]" style={{ fontFamily: POPPINS }}>
+            <span className="text-[11px] text-[#475569]" style={{ fontFamily: POPPINS }}>
               {vehicle.color}
             </span>
           </div>
           <div
-            className="text-[1.15rem] font-black text-white text-right"
+            className="text-[1.15rem] font-black text-[#0f172a] text-right"
             style={{ fontFamily: POPPINS }}
           >
             {formatPrice(vehicle.price)}
@@ -530,8 +670,8 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
           disabled={!canBook}
           className={`w-full py-3 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-150 ${
             canBook
-              ? "text-white active:scale-[0.97]"
-              : "bg-[#181818] text-[#3a3a3a] cursor-not-allowed"
+              ? "text-[#0f172a] active:scale-[0.97]"
+              : "bg-[#f1f5f9] text-[#94a3b8] cursor-not-allowed"
           }`}
           style={
             canBook
@@ -581,8 +721,8 @@ function FilterSidebar({
       onClick={onClick}
       className={`px-3 py-1.5 text-[11px] font-medium tracking-wide border transition-all duration-150 ${
         active
-          ? "text-white"
-          : "border-[#222] text-[#555] hover:border-[#3a3a3a] hover:text-[#888]"
+          ? "text-[#0f172a]"
+          : "border-[#e2e8f0] text-[#64748b] hover:border-[#3a3a3a] hover:text-[#475569]"
       }`}
       style={
         active
@@ -605,7 +745,7 @@ function FilterSidebar({
   }) => (
     <div className="flex flex-col gap-2.5">
       <div
-        className="text-[9px] text-[#444] uppercase tracking-[0.2em] font-semibold"
+        className="text-[9px] text-[#64748b] uppercase tracking-[0.2em] font-semibold"
         style={{ fontFamily: POPPINS }}
       >
         {label}
@@ -624,16 +764,16 @@ function FilterSidebar({
   );
 
   return (
-    <div className="border border-[#1a1a1a] bg-[#0a0a0a] p-5 flex flex-col gap-6">
+    <div className="border-2 border-[#e2e8f0] dark:border-[#1e293b] bg-white dark:bg-[#131c2e] p-5 flex flex-col gap-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between">
         <div>
           <div
-            className="text-[11px] font-bold text-white tracking-wide mb-0.5"
+            className="text-[11px] font-bold text-[#0f172a] tracking-wide mb-0.5"
             style={{ fontFamily: POPPINS }}
           >
             Filter
           </div>
-          <div className="text-[10px] text-[#444]" style={{ fontFamily: POPPINS }}>
+          <div className="text-[10px] text-[#64748b]" style={{ fontFamily: POPPINS }}>
             {counts.available} available · {counts.total} total
           </div>
         </div>
@@ -695,11 +835,11 @@ function BookingModal({
     <Dialog.Root open={!!vehicle} onOpenChange={(open) => !open && handleClose()}>
       <Dialog.Portal>
         <Dialog.Overlay
-          className="fixed inset-0 bg-black/75 z-50"
+          className="fixed inset-0 bg-black/50 z-50"
           style={{ backdropFilter: "blur(6px)" }}
         />
         <Dialog.Content
-          className="fixed bottom-0 left-0 right-0 z-50 bg-[#0f0f0f] border-t border-[#2a2a2a] max-w-xl mx-auto"
+          className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#131c2e] border-t-2 border-[#e2e8f0] dark:border-[#1e293b] max-w-xl mx-auto shadow-2xl dark:shadow-[#1E5EC2]/30 rounded-t-2xl transition-colors duration-300"
           style={{ animation: "slideUp 320ms cubic-bezier(0.23, 1, 0.32, 1)" }}
           aria-describedby={undefined}
         >
@@ -714,14 +854,14 @@ function BookingModal({
                   Schedule Inspection
                 </div>
                 <Dialog.Title
-                  className="text-xl font-bold text-white leading-tight"
+                  className="text-xl font-bold text-[#0f172a] leading-tight"
                   style={{ fontFamily: PLAYFAIR }}
                 >
                   {vehicle?.year} {vehicle?.brand} {vehicle?.model}
                 </Dialog.Title>
               </div>
               <Dialog.Close asChild>
-                <button className="text-[#444] hover:text-white transition-colors mt-0.5 p-1 -mr-1">
+                <button className="text-[#64748b] hover:text-[#0f172a] transition-colors mt-0.5 p-1 -mr-1">
                   <X size={16} />
                 </button>
               </Dialog.Close>
@@ -738,22 +878,22 @@ function BookingModal({
             {submitted ? (
               <div className="py-10 text-center flex flex-col items-center gap-4">
                 <div
-                  className="w-12 h-12 flex items-center justify-center text-white text-lg border"
+                  className="w-12 h-12 flex items-center justify-center text-[#0f172a] text-lg border"
                   style={{ borderColor: BLUE, color: BLUE }}
                 >
                   ✓
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1" style={{ fontFamily: POPPINS }}>
+                  <p className="text-[#0f172a] font-semibold mb-1" style={{ fontFamily: POPPINS }}>
                     WhatsApp Opened
                   </p>
-                  <p className="text-[#555] text-sm" style={{ fontFamily: POPPINS }}>
+                  <p className="text-[#64748b] text-sm" style={{ fontFamily: POPPINS }}>
                     Our team will confirm your slot shortly.
                   </p>
                 </div>
                 <button
                   onClick={handleClose}
-                  className="mt-2 px-6 py-2.5 text-white text-[11px] font-bold uppercase tracking-[0.15em] active:scale-[0.97] transition-all"
+                  className="mt-2 px-6 py-2.5 text-[#0f172a] text-[11px] font-bold uppercase tracking-[0.15em] active:scale-[0.97] transition-all"
                   style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK)
@@ -770,7 +910,7 @@ function BookingModal({
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col gap-1.5">
                     <label
-                      className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                      className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
                       style={{ fontFamily: POPPINS }}
                     >
                       Full Name
@@ -780,7 +920,7 @@ function BookingModal({
                       value={form.name}
                       onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                       placeholder="Ahmad Razif"
-                      className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 placeholder:text-[#333] transition-colors focus:outline-none"
+                      className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-colors focus:outline-none"
                       style={{ fontFamily: POPPINS }}
                       onFocus={(e) =>
                         ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
@@ -792,7 +932,7 @@ function BookingModal({
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label
-                      className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                      className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
                       style={{ fontFamily: POPPINS }}
                     >
                       Phone Number
@@ -801,8 +941,8 @@ function BookingModal({
                       required
                       value={form.phone}
                       onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                      placeholder="+60 12-345 6789"
-                      className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 placeholder:text-[#333] transition-colors focus:outline-none"
+                      placeholder="+234 803 309 0335"
+                      className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-colors focus:outline-none"
                       style={{ fontFamily: POPPINS }}
                       onFocus={(e) =>
                         ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
@@ -816,7 +956,7 @@ function BookingModal({
 
                 <div className="flex flex-col gap-1.5">
                   <label
-                    className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                    className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
                     style={{ fontFamily: POPPINS }}
                   >
                     Preferred Inspection Date
@@ -827,7 +967,7 @@ function BookingModal({
                     value={form.date}
                     min={today}
                     onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                    className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 transition-colors focus:outline-none [color-scheme:dark]"
+                    className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 transition-colors focus:outline-none [color-scheme:light]"
                     style={{ fontFamily: POPPINS }}
                     onFocus={(e) =>
                       ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
@@ -840,7 +980,7 @@ function BookingModal({
 
                 <div className="flex flex-col gap-1.5">
                   <label
-                    className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                    className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
                     style={{ fontFamily: POPPINS }}
                   >
                     Additional Notes{" "}
@@ -851,7 +991,7 @@ function BookingModal({
                     onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                     placeholder="Any specific requests or questions..."
                     rows={2}
-                    className="bg-[#141414] border border-[#2a2a2a] text-white text-sm px-3 py-2.5 placeholder:text-[#333] transition-colors resize-none focus:outline-none"
+                    className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-colors resize-none focus:outline-none"
                     style={{ fontFamily: POPPINS }}
                     onFocus={(e) =>
                       ((e.currentTarget as HTMLTextAreaElement).style.borderColor = BLUE)
@@ -864,7 +1004,7 @@ function BookingModal({
 
                 <button
                   type="submit"
-                  className="mt-1 w-full py-3.5 text-white text-[11px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-150"
+                  className="mt-1 w-full py-3.5 text-[#0f172a] text-[11px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-150"
                   style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK)
@@ -891,6 +1031,15 @@ export default function App() {
   const [filters, setFilters] = useState<FilterState>({ brand: "All", type: "All", status: "All" });
   const [bookingVehicle, setBookingVehicle] = useState<Vehicle | null>(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
 
   const filteredVehicles = useMemo(() => {
     return vehicles.filter((v) => {
@@ -907,7 +1056,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: POPPINS }}>
+    <div className="min-h-screen bg-white dark:bg-[#0b0f19] text-[#0f172a] dark:text-[#f8fafc] transition-colors duration-300" style={{ fontFamily: POPPINS }}>
       <style>{`
         @keyframes slideUp {
           from { transform: translateY(100%); opacity: 0; }
@@ -917,13 +1066,38 @@ export default function App() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        @keyframes shimmer {
+          0% { background-position: -1000px 0; }
+          100% { background-position: 1000px 0; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         .ticker-track {
           display: flex;
           white-space: nowrap;
           animation: marquee 42s linear infinite;
         }
+        .luxury-card {
+          animation: fadeIn 0.6s ease-out;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .luxury-card:hover {
+          transform: translateY(-8px);
+        }
+        .shimmer-effect {
+          background: linear-gradient(
+            90deg,
+            rgba(30, 94, 194, 0) 0%,
+            rgba(30, 94, 194, 0.2) 50%,
+            rgba(30, 94, 194, 0) 100%
+          );
+          background-size: 1000px 100%;
+          animation: shimmer 3s infinite;
+        }
         @media (prefers-reduced-motion: reduce) {
-          .ticker-track { animation: none; }
+          .ticker-track, .luxury-card, .shimmer-effect { animation: none; }
         }
       `}</style>
 
@@ -959,7 +1133,7 @@ export default function App() {
       </div>
 
       {/* ── Navigation ── */}
-      <nav className="sticky top-0 z-40 border-b border-[#151515] bg-[#0a0a0a]/96 backdrop-blur-sm">
+      <nav className="sticky top-0 z-40 border-b border-[#e2e8f0] dark:border-[#1e293b] bg-white/98 dark:bg-[#0b0f19]/98 backdrop-blur-xl shadow-sm dark:shadow-lg transition-colors duration-300">
         <div className="max-w-[1380px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3 flex-shrink-0">
@@ -976,7 +1150,7 @@ export default function App() {
               <a
                 key={item}
                 href="#inventory"
-                className="text-[12px] text-[#555] hover:text-white transition-colors tracking-[0.05em]"
+                className="text-[12px] text-[#64748b] hover:text-[#0f172a] transition-colors tracking-[0.05em]"
               >
                 {item}
               </a>
@@ -988,20 +1162,33 @@ export default function App() {
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 bg-[#25D366] text-white px-4 py-2 text-[11px] font-bold tracking-[0.08em] hover:bg-[#22c55e] active:scale-[0.97] transition-all duration-150 flex-shrink-0"
+            className="flex items-center gap-1.5 bg-[#25D366] text-[#0f172a] px-4 py-2 text-[11px] font-bold tracking-[0.08em] hover:bg-[#22c55e] active:scale-[0.97] transition-all duration-150 flex-shrink-0"
             style={{ fontFamily: POPPINS }}
           >
             <MessageCircle size={12} />
             WhatsApp Us
           </a>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setIsDark(!isDark)}
+            className="p-2.5 rounded-lg border-2 border-[#e2e8f0] hover:border-[#1E5EC2] transition-all duration-200 hover:bg-[#f8f9fa] dark:border-[#1e293b] dark:hover:border-[#38bdf8] dark:hover:bg-[#1e293b]"
+            aria-label="Toggle theme"
+          >
+            {isDark ? (
+              <Sun size={18} className="text-[#38bdf8]" />
+            ) : (
+              <Moon size={18} className="text-[#1E5EC2]" />
+            )}
+          </button>
         </div>
       </nav>
 
       {/* ── Hero ── */}
       <section className="max-w-[1380px] mx-auto px-6 pt-10 pb-14">
-        <div className="grid md:grid-cols-[3fr_2fr] border border-[#1a1a1a] min-h-[460px]">
+        <div className="grid md:grid-cols-[3fr_2fr] border-2 border-[#e2e8f0] dark:border-[#1e293b] min-h-[460px] rounded-xl overflow-hidden shadow-xl dark:shadow-2xl bg-white dark:bg-[#131c2e] transition-all duration-300">
           {/* Left — Hero Image */}
-          <div className="relative overflow-hidden bg-[#111] min-h-[300px]">
+          <div className="relative overflow-hidden bg-[#f8f9fa] min-h-[300px]">
             <img
               src="https://images.unsplash.com/photo-1763165561886-a9391b2132c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
               alt="Yomsan Motors Showroom"
@@ -1018,29 +1205,29 @@ export default function App() {
                 style={{ fontFamily: POPPINS, color: BLUE }}
               >
                 <MapPin size={9} />
-                Kuala Lumpur, Malaysia
+                Lagos, Nigeria
               </div>
               <div className="flex items-center gap-4">
                 <span
-                  className="flex items-center gap-1.5 text-[10px] text-[#666]"
+                  className="flex items-center gap-1.5 text-[10px] text-[#64748b]"
                   style={{ fontFamily: POPPINS }}
                 >
                   <Clock size={9} />
                   Mon–Sat 9am–7pm
                 </span>
                 <span
-                  className="flex items-center gap-1.5 text-[10px] text-[#666]"
+                  className="flex items-center gap-1.5 text-[10px] text-[#64748b]"
                   style={{ fontFamily: POPPINS }}
                 >
                   <Phone size={9} />
-                  +60 12-345 6789
+                  +234 803 309 0335
                 </span>
               </div>
             </div>
           </div>
 
           {/* Right — Content */}
-          <div className="flex flex-col justify-center gap-7 p-8 md:p-10 border-t md:border-t-0 md:border-l border-[#1a1a1a]">
+          <div className="flex flex-col justify-center gap-7 p-8 md:p-10 border-t md:border-t-0 md:border-l border-[#e2e8f0]">
             <div>
               <div
                 className="text-[9px] uppercase tracking-[0.35em] font-semibold mb-4"
@@ -1049,7 +1236,7 @@ export default function App() {
                 Premier Luxury Dealership
               </div>
               <h1
-                className="text-[2.6rem] font-black text-white leading-[1.08] mb-4"
+                className="text-[2.6rem] font-black text-[#0f172a] leading-[1.08] mb-4"
                 style={{ fontFamily: POPPINS }}
               >
                 Drive the
@@ -1062,7 +1249,7 @@ export default function App() {
                 </em>
               </h1>
               <p
-                className="text-[#555] text-[13px] leading-relaxed"
+                className="text-[#64748b] text-[13px] leading-relaxed"
                 style={{ fontFamily: POPPINS, maxWidth: "26ch" }}
               >
                 A curated collection of premium pre-owned vehicles. Every car rigorously certified before entering our showroom.
@@ -1070,7 +1257,7 @@ export default function App() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#1a1a1a]">
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#e2e8f0]">
               {[
                 { val: counts.available.toString(), label: "Available" },
                 { val: "100%", label: "Inspected" },
@@ -1078,13 +1265,13 @@ export default function App() {
               ].map((s) => (
                 <div key={s.label}>
                   <div
-                    className="text-2xl font-black text-white mb-0.5"
+                    className="text-2xl font-black text-[#0f172a] mb-0.5"
                     style={{ fontFamily: POPPINS }}
                   >
                     {s.val}
                   </div>
                   <div
-                    className="text-[9px] text-[#444] uppercase tracking-[0.15em]"
+                    className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
                     style={{ fontFamily: POPPINS }}
                   >
                     {s.label}
@@ -1097,7 +1284,7 @@ export default function App() {
             <div className="flex flex-col gap-2.5">
               <a
                 href="#inventory"
-                className="flex items-center justify-center gap-2 text-white py-3.5 text-[11px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
+                className="flex items-center justify-center gap-2 text-[#0f172a] py-3.5 text-[11px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
                 style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE_DARK)
@@ -1115,7 +1302,7 @@ export default function App() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 border border-[#252525] text-[#555] py-3.5 text-[11px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] hover:text-[#aaa] transition-all duration-150"
+                className="flex items-center justify-center gap-2 border border-[#e2e8f0] text-[#64748b] py-3.5 text-[11px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] hover:text-[#334155] transition-all duration-150"
                 style={{ fontFamily: POPPINS }}
               >
                 <MessageCircle size={12} />
@@ -1129,7 +1316,7 @@ export default function App() {
       {/* ── Inventory ── */}
       <section id="inventory" className="max-w-[1380px] mx-auto px-6 pb-24">
         {/* Section Header */}
-        <div className="flex items-end justify-between pb-6 mb-8 border-b border-[#151515]">
+        <div className="flex items-end justify-between pb-6 mb-8 border-b border-[#e2e8f0]">
           <div>
             <div
               className="text-[9px] uppercase tracking-[0.3em] font-semibold mb-2"
@@ -1138,17 +1325,17 @@ export default function App() {
               Current Stock
             </div>
             <h2
-              className="text-[1.4rem] font-black text-white flex items-baseline gap-3"
+              className="text-[1.4rem] font-black text-[#0f172a] flex items-baseline gap-3"
               style={{ fontFamily: POPPINS }}
             >
               Our Inventory
-              <span className="text-sm font-normal text-[#3a3a3a]">
+              <span className="text-sm font-normal text-[#94a3b8]">
                 {filteredVehicles.length} / {vehicles.length}
               </span>
             </h2>
           </div>
           <button
-            className="md:hidden flex items-center gap-2 text-[11px] text-[#666] border border-[#222] px-3 py-2 hover:border-[#3a3a3a] hover:text-[#aaa] transition-all"
+            className="md:hidden flex items-center gap-2 text-[11px] text-[#64748b] border border-[#e2e8f0] px-3 py-2 hover:border-[#3a3a3a] hover:text-[#334155] transition-all"
             onClick={() => setMobileFiltersOpen((o) => !o)}
             style={{ fontFamily: POPPINS }}
           >
@@ -1173,7 +1360,7 @@ export default function App() {
             {filteredVehicles.length === 0 ? (
               <div className="py-24 text-center flex flex-col items-center gap-4">
                 <div className="text-4xl text-[#222]">⊘</div>
-                <p className="text-[#444] text-sm" style={{ fontFamily: POPPINS }}>
+                <p className="text-[#64748b] text-sm" style={{ fontFamily: POPPINS }}>
                   No vehicles match your current filters.
                 </p>
                 <button
@@ -1196,7 +1383,7 @@ export default function App() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-[#151515] py-8 px-6">
+      <footer className="border-t border-[#e2e8f0] py-8 px-6">
         <div className="max-w-[1380px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <img
@@ -1204,7 +1391,7 @@ export default function App() {
               alt="Yomsan Motors"
               className="h-6 w-auto object-contain opacity-40"
             />
-            <span className="text-[#333] text-[11px]" style={{ fontFamily: POPPINS }}>
+            <span className="text-[#94a3b8] text-[11px]" style={{ fontFamily: POPPINS }}>
               © 2024 Yomsan Motors Sdn. Bhd. All rights reserved.
             </span>
           </div>
