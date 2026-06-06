@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter, Sun, Moon } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import yomsanAuto2 from "../imports/yomsan_auto__2_-1.png";
 import yomsanAuto3 from "../imports/yomsan_auto__3_-1.png";
 
@@ -802,6 +803,175 @@ function FilterSidebar({
   );
 }
 
+// ─── Hero Section with Image Carousel ────────────────────────────────────────
+
+const HERO_IMAGES = [
+  "https://images.unsplash.com/photo-1763165561886-a9391b2132c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  "https://images.unsplash.com/photo-1603189617530-6d32306f57c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+  "https://images.unsplash.com/photo-1605556816125-d752c226247b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80",
+];
+
+function HeroSection({ counts }: { counts: { total: number; available: number } }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="grid md:grid-cols-[3fr_2fr] border-2 border-[#e2e8f0] dark:border-[#1e293b] min-h-[320px] rounded-xl overflow-hidden shadow-xl dark:shadow-2xl bg-white dark:bg-[#131c2e] transition-all duration-300">
+      {/* Left — Hero Image Carousel */}
+      <div className="relative overflow-hidden bg-[#f8f9fa] min-h-[220px]">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentImageIndex}
+            src={HERO_IMAGES[currentImageIndex]}
+            alt="Yomsan Motors Showroom"
+            className="w-full h-full object-cover absolute inset-0"
+            style={{ minHeight: "220px" }}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0a0a] opacity-80 pointer-events-none hidden md:block" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/70 via-transparent to-transparent pointer-events-none" />
+
+        {/* Image indicators */}
+        <div className="absolute top-3 right-3 flex gap-1.5">
+          {HERO_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentImageIndex(i)}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                i === currentImageIndex ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`View image ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Location info overlay */}
+        <div className="absolute bottom-3 left-3 z-10">
+          <div
+            className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] mb-1"
+            style={{ fontFamily: POPPINS, color: BLUE }}
+          >
+            <MapPin size={8} />
+            Lagos, Nigeria
+          </div>
+          <div className="flex items-center gap-3">
+            <span
+              className="flex items-center gap-1.5 text-[9px] text-[#64748b]"
+              style={{ fontFamily: POPPINS }}
+            >
+              <Clock size={8} />
+              Mon–Sat 9am–7pm
+            </span>
+            <span
+              className="flex items-center gap-1.5 text-[9px] text-[#64748b]"
+              style={{ fontFamily: POPPINS }}
+            >
+              <Phone size={8} />
+              +234 803 309 0335
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Right — Content */}
+      <div className="flex flex-col justify-center gap-5 p-6 md:p-8 border-t md:border-t-0 md:border-l border-[#e2e8f0]">
+        <div>
+          <div
+            className="text-[8px] uppercase tracking-[0.35em] font-semibold mb-3"
+            style={{ fontFamily: POPPINS, color: BLUE }}
+          >
+            Premier Luxury Dealership
+          </div>
+          <h1
+            className="text-[2.2rem] font-black text-[#0f172a] leading-[1.08] mb-3"
+            style={{ fontFamily: POPPINS }}
+          >
+            Drive the
+            <br />
+            <em
+              className="not-italic"
+              style={{ fontFamily: PLAYFAIR, fontStyle: "italic", color: BLUE }}
+            >
+              Extraordinary
+            </em>
+          </h1>
+          <p
+            className="text-[#64748b] text-[12px] leading-relaxed"
+            style={{ fontFamily: POPPINS, maxWidth: "26ch" }}
+          >
+            A curated collection of premium pre-owned vehicles. Every car rigorously certified before entering our showroom.
+          </p>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-[#e2e8f0]">
+          {[
+            { val: counts.available.toString(), label: "Available" },
+            { val: "100%", label: "Inspected" },
+            { val: "10+", label: "Yrs Trusted" },
+          ].map((s) => (
+            <div key={s.label}>
+              <div
+                className="text-xl font-black text-[#0f172a] mb-0.5"
+                style={{ fontFamily: POPPINS }}
+              >
+                {s.val}
+              </div>
+              <div
+                className="text-[8px] text-[#64748b] uppercase tracking-[0.15em]"
+                style={{ fontFamily: POPPINS }}
+              >
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTAs */}
+        <div className="flex flex-col gap-2">
+          <a
+            href="#inventory"
+            className="flex items-center justify-center gap-2 text-[#0f172a] py-3 text-[10px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
+            style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE_DARK)
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE)
+            }
+          >
+            Browse Inventory
+            <ChevronRight size={12} />
+          </a>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+              "Hi Yomsan Motors! I'm interested in booking a showroom visit."
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 border border-[#e2e8f0] text-[#64748b] py-3 text-[10px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] hover:text-[#334155] transition-all duration-150"
+            style={{ fontFamily: POPPINS }}
+          >
+            <MessageCircle size={11} />
+            Contact Showroom
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Booking Modal ────────────────────────────────────────────────────────────
 
 function BookingModal({
@@ -1140,7 +1310,7 @@ export default function App() {
             <img
               src={yomsanAuto3}
               alt="Yomsan Motors"
-              className="h-14 w-auto object-contain"
+              className="h-20 w-auto object-contain transition-all duration-300 brightness-100 dark:brightness-0 dark:invert"
             />
           </div>
 
@@ -1185,132 +1355,8 @@ export default function App() {
       </nav>
 
       {/* ── Hero ── */}
-      <section className="max-w-[1380px] mx-auto px-6 pt-10 pb-14">
-        <div className="grid md:grid-cols-[3fr_2fr] border-2 border-[#e2e8f0] dark:border-[#1e293b] min-h-[460px] rounded-xl overflow-hidden shadow-xl dark:shadow-2xl bg-white dark:bg-[#131c2e] transition-all duration-300">
-          {/* Left — Hero Image */}
-          <div className="relative overflow-hidden bg-[#f8f9fa] min-h-[300px]">
-            <img
-              src="https://images.unsplash.com/photo-1763165561886-a9391b2132c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
-              alt="Yomsan Motors Showroom"
-              className="w-full h-full object-cover"
-              style={{ minHeight: "300px" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0a0a] opacity-80 pointer-events-none hidden md:block" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/70 via-transparent to-transparent pointer-events-none" />
-
-            {/* Location info overlay */}
-            <div className="absolute bottom-5 left-5">
-              <div
-                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] mb-1.5"
-                style={{ fontFamily: POPPINS, color: BLUE }}
-              >
-                <MapPin size={9} />
-                Lagos, Nigeria
-              </div>
-              <div className="flex items-center gap-4">
-                <span
-                  className="flex items-center gap-1.5 text-[10px] text-[#64748b]"
-                  style={{ fontFamily: POPPINS }}
-                >
-                  <Clock size={9} />
-                  Mon–Sat 9am–7pm
-                </span>
-                <span
-                  className="flex items-center gap-1.5 text-[10px] text-[#64748b]"
-                  style={{ fontFamily: POPPINS }}
-                >
-                  <Phone size={9} />
-                  +234 803 309 0335
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right — Content */}
-          <div className="flex flex-col justify-center gap-7 p-8 md:p-10 border-t md:border-t-0 md:border-l border-[#e2e8f0]">
-            <div>
-              <div
-                className="text-[9px] uppercase tracking-[0.35em] font-semibold mb-4"
-                style={{ fontFamily: POPPINS, color: BLUE }}
-              >
-                Premier Luxury Dealership
-              </div>
-              <h1
-                className="text-[2.6rem] font-black text-[#0f172a] leading-[1.08] mb-4"
-                style={{ fontFamily: POPPINS }}
-              >
-                Drive the
-                <br />
-                <em
-                  className="not-italic"
-                  style={{ fontFamily: PLAYFAIR, fontStyle: "italic", color: BLUE }}
-                >
-                  Extraordinary
-                </em>
-              </h1>
-              <p
-                className="text-[#64748b] text-[13px] leading-relaxed"
-                style={{ fontFamily: POPPINS, maxWidth: "26ch" }}
-              >
-                A curated collection of premium pre-owned vehicles. Every car rigorously certified before entering our showroom.
-              </p>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#e2e8f0]">
-              {[
-                { val: counts.available.toString(), label: "Available" },
-                { val: "100%", label: "Inspected" },
-                { val: "10+", label: "Yrs Trusted" },
-              ].map((s) => (
-                <div key={s.label}>
-                  <div
-                    className="text-2xl font-black text-[#0f172a] mb-0.5"
-                    style={{ fontFamily: POPPINS }}
-                  >
-                    {s.val}
-                  </div>
-                  <div
-                    className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
-                    style={{ fontFamily: POPPINS }}
-                  >
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col gap-2.5">
-              <a
-                href="#inventory"
-                className="flex items-center justify-center gap-2 text-[#0f172a] py-3.5 text-[11px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
-                style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE_DARK)
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE)
-                }
-              >
-                Browse Inventory
-                <ChevronRight size={13} />
-              </a>
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                  "Hi Yomsan Motors! I'm interested in booking a showroom visit."
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 border border-[#e2e8f0] text-[#64748b] py-3.5 text-[11px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] hover:text-[#334155] transition-all duration-150"
-                style={{ fontFamily: POPPINS }}
-              >
-                <MessageCircle size={12} />
-                Contact Showroom
-              </a>
-            </div>
-          </div>
-        </div>
+      <section className="max-w-[1380px] mx-auto px-6 pt-8 pb-10">
+        <HeroSection counts={counts} />
       </section>
 
       {/* ── Inventory ── */}
@@ -1389,7 +1435,7 @@ export default function App() {
             <img
               src={yomsanAuto3}
               alt="Yomsan Motors"
-              className="h-6 w-auto object-contain opacity-40"
+              className="h-8 w-auto object-contain opacity-50 dark:opacity-40 transition-all duration-300 dark:brightness-0 dark:invert"
             />
             <span className="text-[#94a3b8] text-[11px]" style={{ fontFamily: POPPINS }}>
               © 2024 Yomsan Motors Sdn. Bhd. All rights reserved.
