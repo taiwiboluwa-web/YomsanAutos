@@ -537,9 +537,9 @@ function formatMileage(km: number) {
 
 function StatusBadge({ status }: { status: string }) {
   const cfg: Record<string, { bg: string; text: string; dot: string; pulse: boolean }> = {
-    Available: { bg: "bg-emerald-500/15", text: "text-emerald-400", dot: "bg-emerald-400", pulse: true },
-    Reserved: { bg: "bg-amber-500/15", text: "text-amber-400", dot: "bg-amber-400", pulse: false },
-    Sold: { bg: "bg-red-500/15", text: "text-red-400", dot: "bg-red-500", pulse: false },
+    Available: { bg: "bg-emerald-500/15 dark:bg-emerald-500/25", text: "text-emerald-600 dark:text-emerald-400", dot: "bg-emerald-500 dark:bg-emerald-400", pulse: true },
+    Reserved: { bg: "bg-amber-500/15 dark:bg-amber-500/25", text: "text-amber-600 dark:text-amber-400", dot: "bg-amber-500 dark:bg-amber-400", pulse: false },
+    Sold: { bg: "bg-red-500/15 dark:bg-red-500/25", text: "text-red-600 dark:text-red-400", dot: "bg-red-500 dark:bg-red-400", pulse: false },
   };
   const c = cfg[status] ?? cfg["Sold"];
   return (
@@ -610,13 +610,13 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         {/* Brand + Model */}
         <div>
           <div
-            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-1"
-            style={{ fontFamily: POPPINS, color: BLUE }}
+            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-1 text-[#1E5EC2] dark:text-[#60a5fa]"
+            style={{ fontFamily: POPPINS }}
           >
             {vehicle.brand}
           </div>
           <h3
-            className="text-[1.1rem] font-bold leading-tight text-[#0f172a]"
+            className="text-[1.1rem] font-bold leading-tight text-[#0f172a] dark:text-[#f8fafc]"
             style={{ fontFamily: PLAYFAIR }}
           >
             {vehicle.model}
@@ -624,7 +624,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         </div>
 
         {/* Specs row */}
-        <div className="grid grid-cols-3 gap-2 border-t border-[#e2e8f0] pt-4">
+        <div className="grid grid-cols-3 gap-2 border-t border-[#e2e8f0] dark:border-[#1e293b] pt-4">
           {[
             { label: "Engine", value: vehicle.engine },
             { label: "Power", value: `${vehicle.hp} HP` },
@@ -632,12 +632,12 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
           ].map((s) => (
             <div key={s.label} className="flex flex-col gap-0.5">
               <span
-                className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
+                className="text-[9px] text-[#64748b] dark:text-[#94a3b8] uppercase tracking-[0.15em]"
                 style={{ fontFamily: POPPINS }}
               >
                 {s.label}
               </span>
-              <span className="text-[11px] text-[#475569] font-medium" style={{ fontFamily: POPPINS }}>
+              <span className="text-[11px] text-[#475569] dark:text-[#cbd5e1] font-medium" style={{ fontFamily: POPPINS }}>
                 {s.value}
               </span>
             </div>
@@ -648,17 +648,17 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         <div className="flex items-end justify-between mt-auto">
           <div className="flex flex-col gap-0.5">
             <span
-              className="text-[9px] text-[#64748b] uppercase tracking-[0.15em]"
+              className="text-[9px] text-[#64748b] dark:text-[#94a3b8] uppercase tracking-[0.15em]"
               style={{ fontFamily: POPPINS }}
             >
               Colour
             </span>
-            <span className="text-[11px] text-[#475569]" style={{ fontFamily: POPPINS }}>
+            <span className="text-[11px] text-[#475569] dark:text-[#cbd5e1]" style={{ fontFamily: POPPINS }}>
               {vehicle.color}
             </span>
           </div>
           <div
-            className="text-[1.15rem] font-black text-[#0f172a] text-right"
+            className="text-[1.15rem] font-black text-[#0f172a] dark:text-[#f8fafc] text-right"
             style={{ fontFamily: POPPINS }}
           >
             {formatPrice(vehicle.price)}
@@ -671,8 +671,8 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
           disabled={!canBook}
           className={`w-full py-3 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-150 ${
             canBook
-              ? "text-[#0f172a] active:scale-[0.97]"
-              : "bg-[#f1f5f9] text-[#94a3b8] cursor-not-allowed"
+              ? "text-white active:scale-[0.97]"
+              : "bg-[#f1f5f9] dark:bg-[#1e293b] text-[#94a3b8] dark:text-[#64748b] cursor-not-allowed"
           }`}
           style={
             canBook
@@ -722,12 +722,12 @@ function FilterSidebar({
       onClick={onClick}
       className={`px-3 py-1.5 text-[11px] font-medium tracking-wide border transition-all duration-150 ${
         active
-          ? "text-[#0f172a]"
-          : "border-[#e2e8f0] text-[#64748b] hover:border-[#3a3a3a] hover:text-[#475569]"
+          ? "text-white dark:text-[#f8fafc]"
+          : "border-[#e2e8f0] dark:border-[#1e293b] text-[#64748b] dark:text-[#94a3b8] hover:border-[#3a3a3a] dark:hover:border-[#475569] hover:text-[#475569] dark:hover:text-[#cbd5e1]"
       }`}
       style={
         active
-          ? { fontFamily: POPPINS, borderColor: BLUE, backgroundColor: `${BLUE}1a`, color: "white" }
+          ? { fontFamily: POPPINS, borderColor: BLUE, backgroundColor: `${BLUE}1a` }
           : { fontFamily: POPPINS }
       }
     >
@@ -746,7 +746,7 @@ function FilterSidebar({
   }) => (
     <div className="flex flex-col gap-2.5">
       <div
-        className="text-[9px] text-[#64748b] uppercase tracking-[0.2em] font-semibold"
+        className="text-[9px] text-[#64748b] dark:text-[#94a3b8] uppercase tracking-[0.2em] font-semibold"
         style={{ fontFamily: POPPINS }}
       >
         {label}
@@ -769,12 +769,12 @@ function FilterSidebar({
       <div className="flex items-center justify-between">
         <div>
           <div
-            className="text-[11px] font-bold text-[#0f172a] tracking-wide mb-0.5"
+            className="text-[11px] font-bold text-[#0f172a] dark:text-[#f8fafc] tracking-wide mb-0.5"
             style={{ fontFamily: POPPINS }}
           >
             Filter
           </div>
-          <div className="text-[10px] text-[#64748b]" style={{ fontFamily: POPPINS }}>
+          <div className="text-[10px] text-[#64748b] dark:text-[#94a3b8]" style={{ fontFamily: POPPINS }}>
             {counts.available} available · {counts.total} total
           </div>
         </div>
@@ -888,26 +888,26 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
       <div className="flex flex-col justify-center gap-5 p-6 md:p-8 border-t md:border-t-0 md:border-l border-[#e2e8f0]">
         <div>
           <div
-            className="text-[8px] uppercase tracking-[0.35em] font-semibold mb-3"
-            style={{ fontFamily: POPPINS, color: BLUE }}
+            className="text-[8px] uppercase tracking-[0.35em] font-semibold mb-3 text-[#1E5EC2] dark:text-[#60a5fa]"
+            style={{ fontFamily: POPPINS }}
           >
             Premier Luxury Dealership
           </div>
           <h1
-            className="text-[2.2rem] font-black text-[#0f172a] leading-[1.08] mb-3"
+            className="text-[2.2rem] font-black text-[#0f172a] dark:text-[#f8fafc] leading-[1.08] mb-3"
             style={{ fontFamily: POPPINS }}
           >
             Drive the
             <br />
             <em
-              className="not-italic"
-              style={{ fontFamily: PLAYFAIR, fontStyle: "italic", color: BLUE }}
+              className="not-italic text-[#1E5EC2] dark:text-[#60a5fa]"
+              style={{ fontFamily: PLAYFAIR, fontStyle: "italic" }}
             >
               Extraordinary
             </em>
           </h1>
           <p
-            className="text-[#64748b] text-[12px] leading-relaxed"
+            className="text-[#64748b] dark:text-[#94a3b8] text-[12px] leading-relaxed"
             style={{ fontFamily: POPPINS, maxWidth: "26ch" }}
           >
             A curated collection of premium pre-owned vehicles. Every car rigorously certified before entering our showroom.
@@ -915,7 +915,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-[#e2e8f0]">
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-[#e2e8f0] dark:border-[#1e293b]">
           {[
             { val: counts.available.toString(), label: "Available" },
             { val: "100%", label: "Inspected" },
@@ -923,13 +923,13 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
           ].map((s) => (
             <div key={s.label}>
               <div
-                className="text-xl font-black text-[#0f172a] mb-0.5"
+                className="text-xl font-black text-[#0f172a] dark:text-[#f8fafc] mb-0.5"
                 style={{ fontFamily: POPPINS }}
               >
                 {s.val}
               </div>
               <div
-                className="text-[8px] text-[#64748b] uppercase tracking-[0.15em]"
+                className="text-[8px] text-[#64748b] dark:text-[#94a3b8] uppercase tracking-[0.15em]"
                 style={{ fontFamily: POPPINS }}
               >
                 {s.label}
@@ -942,7 +942,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
         <div className="flex flex-col gap-2">
           <a
             href="#inventory"
-            className="flex items-center justify-center gap-2 text-[#0f172a] py-3 text-[10px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
+            className="flex items-center justify-center gap-2 text-white py-3 text-[10px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
             style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE_DARK)
@@ -960,7 +960,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 border border-[#e2e8f0] text-[#64748b] py-3 text-[10px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] hover:text-[#334155] transition-all duration-150"
+            className="flex items-center justify-center gap-2 border border-[#e2e8f0] dark:border-[#1e293b] text-[#64748b] dark:text-[#94a3b8] py-3 text-[10px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] dark:hover:border-[#475569] hover:text-[#334155] dark:hover:text-[#cbd5e1] transition-all duration-150"
             style={{ fontFamily: POPPINS }}
           >
             <MessageCircle size={11} />
@@ -1154,7 +1154,7 @@ function BookingModal({
                     style={{ fontFamily: POPPINS }}
                   >
                     Additional Notes{" "}
-                    <span className="text-[#2a2a2a] normal-case tracking-normal">(optional)</span>
+                    <span className="text-[#64748b] dark:text-[#94a3b8] normal-case tracking-normal">(optional)</span>
                   </label>
                   <textarea
                     value={form.notes}
@@ -1333,37 +1333,6 @@ export default function App() {
         }
       `}</style>
 
-      {/* ── Showroom Ticker ── */}
-      <div
-        className="overflow-hidden border-b py-2.5"
-        style={{
-          borderColor: `${BLUE}26`,
-          backgroundColor: `${BLUE}0d`,
-        }}
-      >
-        <div className="ticker-track">
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-2 px-8 text-[10px] uppercase tracking-[0.18em] font-semibold"
-              style={{ color: BLUE }}
-            >
-              <span
-                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                  item.dot === "green"
-                    ? "bg-emerald-400"
-                    : item.dot === "red"
-                    ? "bg-red-400"
-                    : "bg-amber-400"
-                }`}
-              />
-              {item.text}
-              <span className="ml-6 text-[#2a2a2a] font-thin">|</span>
-            </span>
-          ))}
-        </div>
-      </div>
-
       {/* ── Navigation ── */}
       <nav className="sticky top-0 z-40 border-b border-[#e2e8f0] dark:border-[#1e293b] liquid-glass-strong shadow-sm dark:shadow-lg transition-colors duration-300">
         <div className="max-w-[1380px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
@@ -1427,23 +1396,23 @@ export default function App() {
         <div className="flex items-end justify-between pb-6 mb-8 border-b border-[#e2e8f0]">
           <div>
             <div
-              className="text-[9px] uppercase tracking-[0.3em] font-semibold mb-2"
-              style={{ fontFamily: POPPINS, color: BLUE }}
+              className="text-[9px] uppercase tracking-[0.3em] font-semibold mb-2 text-[#1E5EC2] dark:text-[#60a5fa]"
+              style={{ fontFamily: POPPINS }}
             >
               Current Stock
             </div>
             <h2
-              className="text-[1.4rem] font-black text-[#0f172a] flex items-baseline gap-3"
+              className="text-[1.4rem] font-black text-[#0f172a] dark:text-[#f8fafc] flex items-baseline gap-3"
               style={{ fontFamily: POPPINS }}
             >
               Our Inventory
-              <span className="text-sm font-normal text-[#94a3b8]">
+              <span className="text-sm font-normal text-[#94a3b8] dark:text-[#64748b]">
                 {filteredVehicles.length} / {vehicles.length}
               </span>
             </h2>
           </div>
           <button
-            className="md:hidden flex items-center gap-2 text-[11px] text-[#64748b] border border-[#e2e8f0] px-3 py-2 hover:border-[#3a3a3a] hover:text-[#334155] transition-all"
+            className="md:hidden flex items-center gap-2 text-[11px] text-[#64748b] dark:text-[#94a3b8] border border-[#e2e8f0] dark:border-[#1e293b] px-3 py-2 hover:border-[#3a3a3a] dark:hover:border-[#475569] hover:text-[#334155] dark:hover:text-[#cbd5e1] transition-all"
             onClick={() => setMobileFiltersOpen((o) => !o)}
             style={{ fontFamily: POPPINS }}
           >
@@ -1467,8 +1436,8 @@ export default function App() {
           <div className="flex-1 min-w-0">
             {filteredVehicles.length === 0 ? (
               <div className="py-24 text-center flex flex-col items-center gap-4">
-                <div className="text-4xl text-[#222]">⊘</div>
-                <p className="text-[#64748b] text-sm" style={{ fontFamily: POPPINS }}>
+                <div className="text-4xl text-[#222] dark:text-[#cbd5e1]">⊘</div>
+                <p className="text-[#64748b] dark:text-[#94a3b8] text-sm" style={{ fontFamily: POPPINS }}>
                   No vehicles match your current filters.
                 </p>
                 <button
@@ -1504,7 +1473,7 @@ export default function App() {
             </span>
           </div>
           <div
-            className="text-[9px] text-[#2a2a2a] uppercase tracking-[0.2em]"
+            className="text-[9px] text-[#64748b] dark:text-[#94a3b8] uppercase tracking-[0.2em]"
             style={{ fontFamily: POPPINS }}
           >
             Premium · Certified · Trusted
