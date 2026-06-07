@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { SmartCursor } from "./components/SmartCursor";
 import yomsanAuto2 from "../imports/yomsan_auto__2_-1.png";
 import yomsanAuto3 from "../imports/yomsan_auto__3_-1.png";
 
@@ -9,9 +10,11 @@ const WHATSAPP_NUMBER = "+2348033090335";
 const POPPINS = "'Poppins', sans-serif";
 const PLAYFAIR = "'Playfair Display', serif";
 
-const BLUE = "#1E5EC2";
-const BLUE_DARK = "#1753B2";
-const BLUE_LIGHT = "#2a70d8";
+// New Color Palette
+const BLUE = "#0E2F76"; // Deep Navy Blue
+const BLUE_DARK = "#0a2355"; // Darker Navy
+const BLUE_LIGHT = "#A9C0E0"; // Soft Blue
+const ACCENT_LIGHT = "#F4FEFF"; // Very Light Blue/Cyan
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -560,23 +563,11 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
 
   return (
     <div
-      className="luxury-card liquid-glass group relative flex flex-col border-2 border-[#e2e8f0] dark:border-[#1e293b] overflow-hidden rounded-lg shadow-lg dark:shadow-2xl hover:shadow-2xl dark:hover:shadow-[#1E5EC2]/20"
+      className="luxury-card glass-card group relative flex flex-col overflow-hidden rounded-2xl shadow-xl dark:shadow-2xl hover:shadow-2xl"
       style={{
-        transition: "transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out",
         cursor: canBook ? "pointer" : "default",
       }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = "scale(1.025)";
-        el.style.borderColor = BLUE;
-        el.style.boxShadow = `0 12px 40px rgba(30,94,194,0.14)`;
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = "scale(1)";
-        el.style.borderColor = "#2a2a2a";
-        el.style.boxShadow = "none";
-      }}
+      data-cursor-text={canBook ? "View" : ""}
     >
       {/* Image */}
       <div className="relative aspect-[16/10] overflow-hidden bg-[#f1f5f9]">
@@ -610,7 +601,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         {/* Brand + Model */}
         <div>
           <div
-            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-1 text-[#1E5EC2] dark:text-[#60a5fa]"
+            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-1 text-[#0E2F76] dark:text-[#A9C0E0]"
             style={{ fontFamily: POPPINS }}
           >
             {vehicle.brand}
@@ -669,9 +660,9 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
         <button
           onClick={() => canBook && onBook(vehicle)}
           disabled={!canBook}
-          className={`w-full py-3 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-150 ${
+          className={`w-full py-3 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-300 rounded-full ${
             canBook
-              ? "text-white active:scale-[0.97]"
+              ? "text-white active:scale-[0.95] hover:shadow-xl hover:shadow-[#A9C0E0]/30"
               : "bg-[#f1f5f9] dark:bg-[#1e293b] text-[#94a3b8] dark:text-[#64748b] cursor-not-allowed"
           }`}
           style={
@@ -682,12 +673,7 @@ function VehicleCard({ vehicle, onBook }: { vehicle: Vehicle; onBook: (v: Vehicl
                 }
               : { fontFamily: POPPINS }
           }
-          onMouseEnter={(e) => {
-            if (canBook) (e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK;
-          }}
-          onMouseLeave={(e) => {
-            if (canBook) (e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE;
-          }}
+          data-cursor-text={canBook ? "Book" : ""}
         >
           {canBook ? "Book Inspection" : vehicle.status === "Reserved" ? "Currently Reserved" : "Sold"}
         </button>
@@ -765,7 +751,7 @@ function FilterSidebar({
   );
 
   return (
-    <div className="border-2 border-[#e2e8f0] dark:border-[#1e293b] liquid-glass-strong p-5 flex flex-col gap-6 rounded-lg shadow-lg dark:shadow-2xl transition-all duration-300">
+    <div className="liquid-glass-strong p-5 flex flex-col gap-6 rounded-2xl shadow-xl dark:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between">
         <div>
           <div
@@ -823,7 +809,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
   }, []);
 
   return (
-    <div className="grid md:grid-cols-[3fr_2fr] border-2 border-[#e2e8f0] dark:border-[#1e293b] min-h-[320px] rounded-xl overflow-hidden shadow-xl dark:shadow-2xl liquid-glass-strong transition-all duration-300">
+    <div className="relative grid md:grid-cols-[3fr_2fr] min-h-[320px] rounded-2xl overflow-hidden shadow-2xl liquid-glass-strong transition-all duration-500 hover:shadow-[#A9C0E0]/30 dark:hover:shadow-[#A9C0E0]/20">
       {/* Left — Hero Image Carousel */}
       <div className="relative overflow-hidden bg-[#f8f9fa] min-h-[220px]">
         <AnimatePresence mode="wait">
@@ -888,7 +874,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
       <div className="flex flex-col justify-center gap-5 p-6 md:p-8 border-t md:border-t-0 md:border-l border-[#e2e8f0]">
         <div>
           <div
-            className="text-[8px] uppercase tracking-[0.35em] font-semibold mb-3 text-[#1E5EC2] dark:text-[#60a5fa]"
+            className="text-[8px] uppercase tracking-[0.35em] font-semibold mb-3 text-[#0E2F76] dark:text-[#A9C0E0]"
             style={{ fontFamily: POPPINS }}
           >
             Premier Luxury Dealership
@@ -900,7 +886,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
             Drive the
             <br />
             <em
-              className="not-italic text-[#1E5EC2] dark:text-[#60a5fa]"
+              className="not-italic text-[#0E2F76] dark:text-[#A9C0E0]"
               style={{ fontFamily: PLAYFAIR, fontStyle: "italic" }}
             >
               Extraordinary
@@ -942,17 +928,17 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
         <div className="flex flex-col gap-2">
           <a
             href="#inventory"
-            className="flex items-center justify-center gap-2 text-white py-3 text-[10px] font-black tracking-[0.18em] uppercase active:scale-[0.98] transition-all duration-150"
+            className="flex items-center justify-center gap-2 text-white py-3 text-[10px] font-black tracking-[0.18em] uppercase active:scale-[0.95] transition-all duration-300 rounded-full liquid-glass shadow-lg hover:shadow-xl hover:shadow-[#A9C0E0]/40"
             style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE_DARK)
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = BLUE)
-            }
+            data-cursor-text="Explore"
           >
             Browse Inventory
-            <ChevronRight size={12} />
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <ChevronRight size={12} />
+            </motion.div>
           </a>
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -960,7 +946,7 @@ function HeroSection({ counts }: { counts: { total: number; available: number } 
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 border border-[#e2e8f0] dark:border-[#1e293b] text-[#64748b] dark:text-[#94a3b8] py-3 text-[10px] font-semibold tracking-[0.12em] uppercase hover:border-[#3a3a3a] dark:hover:border-[#475569] hover:text-[#334155] dark:hover:text-[#cbd5e1] transition-all duration-150"
+            className="flex items-center justify-center gap-2 glass-card text-[#64748b] dark:text-[#94a3b8] py-3 text-[10px] font-semibold tracking-[0.12em] uppercase hover:text-[#0E2F76] dark:hover:text-[#A9C0E0] transition-all duration-300 rounded-full"
             style={{ fontFamily: POPPINS }}
           >
             <MessageCircle size={11} />
@@ -1009,7 +995,7 @@ function BookingModal({
           style={{ backdropFilter: "blur(6px)" }}
         />
         <Dialog.Content
-          className="fixed bottom-0 left-0 right-0 z-50 liquid-glass-strong border-t-2 border-[#e2e8f0] dark:border-[#1e293b] max-w-xl mx-auto shadow-2xl dark:shadow-[#1E5EC2]/30 rounded-t-2xl transition-colors duration-300"
+          className="fixed bottom-0 left-0 right-0 z-50 liquid-glass-strong max-w-xl mx-auto shadow-2xl shadow-[#A9C0E0]/30 dark:shadow-[#0E2F76]/50 rounded-t-3xl transition-all duration-500"
           style={{ animation: "slideUp 320ms cubic-bezier(0.23, 1, 0.32, 1)" }}
           aria-describedby={undefined}
         >
@@ -1039,10 +1025,7 @@ function BookingModal({
 
             {/* Rule */}
             <div
-              className="h-px mb-6"
-              style={{
-                background: `linear-gradient(to right, ${BLUE}66, ${BLUE}1a, transparent)`,
-              }}
+              className="h-px mb-6 bg-gradient-to-r from-[#A9C0E0]/60 via-[#A9C0E0]/20 to-transparent"
             />
 
             {submitted ? (
@@ -1063,7 +1046,7 @@ function BookingModal({
                 </div>
                 <button
                   onClick={handleClose}
-                  className="mt-2 px-6 py-2.5 text-[#0f172a] text-[11px] font-bold uppercase tracking-[0.15em] active:scale-[0.97] transition-all"
+                  className="mt-2 px-6 py-2.5 text-white text-[11px] font-bold uppercase tracking-[0.15em] active:scale-[0.97] transition-all duration-300 rounded-full liquid-glass shadow-lg hover:shadow-xl"
                   style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK)
@@ -1090,7 +1073,7 @@ function BookingModal({
                       value={form.name}
                       onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                       placeholder="Ahmad Razif"
-                      className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-colors focus:outline-none"
+                      className="liquid-glass text-[#0f172a] dark:text-[#f8fafc] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-all duration-300 focus:outline-none rounded-lg focus:shadow-lg focus:shadow-[#A9C0E0]/20"
                       style={{ fontFamily: POPPINS }}
                       onFocus={(e) =>
                         ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
@@ -1112,7 +1095,7 @@ function BookingModal({
                       value={form.phone}
                       onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                       placeholder="+234 803 309 0335"
-                      className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-colors focus:outline-none"
+                      className="liquid-glass text-[#0f172a] dark:text-[#f8fafc] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-all duration-300 focus:outline-none rounded-lg focus:shadow-lg focus:shadow-[#A9C0E0]/20"
                       style={{ fontFamily: POPPINS }}
                       onFocus={(e) =>
                         ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
@@ -1137,7 +1120,7 @@ function BookingModal({
                     value={form.date}
                     min={today}
                     onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                    className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 transition-colors focus:outline-none [color-scheme:light]"
+                    className="liquid-glass text-[#0f172a] dark:text-[#f8fafc] text-sm px-3 py-2.5 transition-all duration-300 focus:outline-none rounded-lg focus:shadow-lg focus:shadow-[#A9C0E0]/20 [color-scheme:light] dark:[color-scheme:dark]"
                     style={{ fontFamily: POPPINS }}
                     onFocus={(e) =>
                       ((e.currentTarget as HTMLInputElement).style.borderColor = BLUE)
@@ -1161,7 +1144,7 @@ function BookingModal({
                     onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                     placeholder="Any specific requests or questions..."
                     rows={2}
-                    className="bg-white border border-[#e2e8f0] text-[#0f172a] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-colors resize-none focus:outline-none"
+                    className="liquid-glass text-[#0f172a] dark:text-[#f8fafc] text-sm px-3 py-2.5 placeholder:text-[#94a3b8] transition-all duration-300 resize-none focus:outline-none rounded-lg focus:shadow-lg focus:shadow-[#A9C0E0]/20"
                     style={{ fontFamily: POPPINS }}
                     onFocus={(e) =>
                       ((e.currentTarget as HTMLTextAreaElement).style.borderColor = BLUE)
@@ -1174,7 +1157,7 @@ function BookingModal({
 
                 <button
                   type="submit"
-                  className="mt-1 w-full py-3.5 text-[#0f172a] text-[11px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-150"
+                  className="mt-1 w-full py-3.5 text-white text-[11px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-300 rounded-full liquid-glass shadow-xl hover:shadow-2xl"
                   style={{ fontFamily: POPPINS, backgroundColor: BLUE }}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLButtonElement).style.backgroundColor = BLUE_DARK)
@@ -1226,7 +1209,18 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0b0f19] text-[#0f172a] dark:text-[#f8fafc] transition-colors duration-300" style={{ fontFamily: POPPINS }}>
+    <div className="relative min-h-screen bg-gradient-to-br from-[#F4FEFF] via-white to-[#F4FEFF] dark:from-[#0b0f19] dark:via-[#0a1628] dark:to-[#0b0f19] text-[#0f172a] dark:text-[#f8fafc] transition-colors duration-500" style={{ fontFamily: POPPINS }}>
+
+      {/* Smart Cursor */}
+      <SmartCursor />
+
+      {/* Ambient Liquid Blobs Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="liquid-blob absolute top-10 left-10 w-96 h-96 bg-[#A9C0E0]/20 dark:bg-[#0E2F76]/30" />
+        <div className="liquid-blob absolute bottom-20 right-20 w-80 h-80 bg-[#F4FEFF]/30 dark:bg-[#A9C0E0]/20" style={{ animationDelay: '2s' }} />
+        <div className="liquid-blob absolute top-1/2 left-1/3 w-64 h-64 bg-[#0E2F76]/10 dark:bg-[#A9C0E0]/15" style={{ animationDelay: '4s' }} />
+      </div>
+
       <style>{`
         @keyframes slideUp {
           from { transform: translateY(100%); opacity: 0; }
@@ -1244,6 +1238,86 @@ export default function App() {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes liquidMorph {
+          0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+          25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+          50% { border-radius: 70% 30% 50% 50% / 30% 70% 70% 30%; }
+          75% { border-radius: 40% 60% 60% 40% / 60% 30% 60% 40%; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        @keyframes glassShine {
+          0% { transform: translateX(-100%) skewX(-15deg); }
+          100% { transform: translateX(200%) skewX(-15deg); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(169, 192, 224, 0.3), 0 0 40px rgba(169, 192, 224, 0.1); }
+          50% { box-shadow: 0 0 30px rgba(169, 192, 224, 0.5), 0 0 60px rgba(169, 192, 224, 0.2); }
+        }
+        @keyframes smooth-slide-in {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes smooth-scale-in {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        /* High Quality Transitions */
+        * {
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .smooth-transition {
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .smooth-hover {
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .page-transition {
+          animation: smooth-slide-in 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scale-transition {
+          animation: smooth-scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Smooth Scroll */
+        html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 80px;
+        }
+
+        @supports (scrollbar-width: thin) {
+          * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(169, 192, 224, 0.3) transparent;
+          }
+        }
+
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: rgba(169, 192, 224, 0.3);
+          border-radius: 10px;
+          transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: rgba(169, 192, 224, 0.5);
+        }
+
         .ticker-track {
           display: flex;
           white-space: nowrap;
@@ -1251,17 +1325,21 @@ export default function App() {
         }
         .luxury-card {
           animation: fadeIn 0.6s ease-out;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          will-change: transform, box-shadow;
         }
         .luxury-card:hover {
-          transform: translateY(-8px);
+          transform: translateY(-12px) scale(1.02);
+        }
+        .luxury-card:active {
+          transform: translateY(-4px) scale(0.98);
         }
         .shimmer-effect {
           background: linear-gradient(
             90deg,
-            rgba(30, 94, 194, 0) 0%,
-            rgba(30, 94, 194, 0.2) 50%,
-            rgba(30, 94, 194, 0) 100%
+            rgba(14, 47, 118, 0) 0%,
+            rgba(169, 192, 224, 0.3) 50%,
+            rgba(14, 47, 118, 0) 100%
           );
           background-size: 1000px 100%;
           animation: shimmer 3s infinite;
@@ -1272,11 +1350,12 @@ export default function App() {
 
         /* Glassmorphism Tier 1: Light */
         .liquid-glass {
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          background: rgba(244, 254, 255, 0.5);
+          backdrop-filter: blur(16px) saturate(180%);
+          -webkit-backdrop-filter: blur(16px) saturate(180%);
           position: relative;
           overflow: hidden;
+          border: 1px solid rgba(169, 192, 224, 0.2);
         }
 
         .liquid-glass::before {
@@ -1284,11 +1363,11 @@ export default function App() {
           position: absolute;
           inset: 0;
           border-radius: inherit;
-          padding: 1px;
-          background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.2) 0%,
-            rgba(255, 255, 255, 0.05) 50%,
-            transparent 100%
+          padding: 1.5px;
+          background: linear-gradient(135deg,
+            rgba(244, 254, 255, 0.6) 0%,
+            rgba(169, 192, 224, 0.4) 50%,
+            rgba(14, 47, 118, 0.3) 100%
           );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
@@ -1296,18 +1375,36 @@ export default function App() {
           pointer-events: none;
         }
 
+        .liquid-glass::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg,
+            transparent,
+            rgba(244, 254, 255, 0.3),
+            transparent
+          );
+          animation: glassShine 3s infinite;
+        }
+
         .dark .liquid-glass {
-          background: rgba(255, 255, 255, 0.02);
+          background: rgba(14, 47, 118, 0.2);
+          border: 1px solid rgba(169, 192, 224, 0.15);
         }
 
         /* Glassmorphism Tier 2: Strong */
         .liquid-glass-strong {
-          background: rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
+          background: rgba(244, 254, 255, 0.7);
+          backdrop-filter: blur(32px) saturate(200%);
+          -webkit-backdrop-filter: blur(32px) saturate(200%);
           position: relative;
           overflow: hidden;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 32px rgba(14, 47, 118, 0.12),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+          border: 1px solid rgba(169, 192, 224, 0.3);
         }
 
         .liquid-glass-strong::before {
@@ -1315,11 +1412,11 @@ export default function App() {
           position: absolute;
           inset: 0;
           border-radius: inherit;
-          padding: 1.5px;
-          background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.3) 0%,
-            rgba(255, 255, 255, 0.1) 50%,
-            transparent 100%
+          padding: 2px;
+          background: linear-gradient(135deg,
+            rgba(244, 254, 255, 0.8) 0%,
+            rgba(169, 192, 224, 0.6) 50%,
+            rgba(14, 47, 118, 0.4) 100%
           );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
@@ -1327,14 +1424,68 @@ export default function App() {
           pointer-events: none;
         }
 
+        .liquid-glass-strong::after {
+          content: "";
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle,
+            rgba(244, 254, 255, 0.1) 0%,
+            transparent 70%
+          );
+          animation: float 6s ease-in-out infinite;
+          pointer-events: none;
+        }
+
         .dark .liquid-glass-strong {
-          background: rgba(255, 255, 255, 0.03);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          background: rgba(14, 47, 118, 0.3);
+          box-shadow: 0 8px 32px rgba(14, 47, 118, 0.5),
+                      inset 0 1px 0 rgba(169, 192, 224, 0.2);
+          border: 1px solid rgba(169, 192, 224, 0.2);
+        }
+
+        /* Liquid Morphism Effects */
+        .liquid-morph {
+          position: relative;
+          animation: liquidMorph 10s ease-in-out infinite;
+          transition: all 0.3s ease;
+        }
+
+        .liquid-blob {
+          position: absolute;
+          border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+          filter: blur(40px);
+          opacity: 0.5;
+          animation: liquidMorph 8s ease-in-out infinite, float 6s ease-in-out infinite;
+        }
+
+        .glass-card {
+          background: rgba(244, 254, 255, 0.1);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1px solid rgba(169, 192, 224, 0.2);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+          background: rgba(244, 254, 255, 0.15);
+          border-color: rgba(169, 192, 224, 0.4);
+          animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .dark .glass-card {
+          background: rgba(14, 47, 118, 0.15);
+        }
+
+        .dark .glass-card:hover {
+          background: rgba(14, 47, 118, 0.25);
         }
       `}</style>
 
       {/* ── Navigation ── */}
-      <nav className="sticky top-0 z-40 border-b border-[#e2e8f0] dark:border-[#1e293b] liquid-glass-strong shadow-sm dark:shadow-lg transition-colors duration-300">
+      <nav className="sticky top-0 z-40 liquid-glass-strong shadow-lg dark:shadow-2xl transition-all duration-500 backdrop-blur-xl">
         <div className="max-w-[1380px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3 flex-shrink-0">
@@ -1351,9 +1502,11 @@ export default function App() {
               <a
                 key={item}
                 href="#inventory"
-                className="text-[12px] text-[#64748b] hover:text-[#0f172a] transition-colors tracking-[0.05em]"
+                className="text-[12px] text-[#64748b] dark:text-[#94a3b8] hover:text-[#0E2F76] dark:hover:text-[#A9C0E0] transition-all duration-300 tracking-[0.05em] relative group"
+                data-cursor-text={item}
               >
                 {item}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0E2F76] dark:bg-[#A9C0E0] group-hover:w-full transition-all duration-300"></span>
               </a>
             ))}
           </div>
@@ -1363,8 +1516,9 @@ export default function App() {
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 bg-[#25D366] text-[#0f172a] px-4 py-2 text-[11px] font-bold tracking-[0.08em] hover:bg-[#22c55e] active:scale-[0.97] transition-all duration-150 flex-shrink-0"
+            className="flex items-center gap-1.5 bg-[#25D366] text-white px-4 py-2 text-[11px] font-bold tracking-[0.08em] rounded-full hover:bg-[#22c55e] hover:shadow-lg hover:shadow-[#25D366]/30 active:scale-[0.95] transition-all duration-300 flex-shrink-0"
             style={{ fontFamily: POPPINS }}
+            data-cursor-text="Chat"
           >
             <MessageCircle size={12} />
             WhatsApp Us
@@ -1373,13 +1527,14 @@ export default function App() {
           {/* Theme Toggle */}
           <button
             onClick={() => setIsDark(!isDark)}
-            className="p-2.5 rounded-lg border-2 border-[#e2e8f0] hover:border-[#1E5EC2] transition-all duration-200 hover:bg-[#f8f9fa] dark:border-[#1e293b] dark:hover:border-[#38bdf8] dark:hover:bg-[#1e293b]"
+            className="p-2.5 rounded-full liquid-glass hover:shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
             aria-label="Toggle theme"
+            data-cursor-text={isDark ? "Light" : "Dark"}
           >
             {isDark ? (
-              <Sun size={18} className="text-[#38bdf8]" />
+              <Sun size={18} className="text-[#A9C0E0] transition-transform duration-300 hover:rotate-180" />
             ) : (
-              <Moon size={18} className="text-[#1E5EC2]" />
+              <Moon size={18} className="text-[#0E2F76] transition-transform duration-300 hover:rotate-180" />
             )}
           </button>
         </div>
@@ -1396,8 +1551,8 @@ export default function App() {
         <div className="flex items-end justify-between pb-6 mb-8 border-b border-[#e2e8f0]">
           <div>
             <div
-              className="text-[9px] uppercase tracking-[0.3em] font-semibold mb-2 text-[#1E5EC2] dark:text-[#60a5fa]"
-              style={{ fontFamily: POPPINS }}
+              className="text-[9px] uppercase tracking-[0.3em] font-semibold mb-2"
+              style={{ fontFamily: POPPINS, color: BLUE_LIGHT }}
             >
               Current Stock
             </div>
