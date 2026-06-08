@@ -1625,7 +1625,7 @@ export default function App() {
               className="h-8 w-auto object-contain opacity-50 dark:opacity-40 transition-all duration-300 dark:brightness-0 dark:invert"
             />
             <span className="text-[#94a3b8] text-[11px]" style={{ fontFamily: POPPINS }}>
-              © 2024 Yomsan Motors Sdn. Bhd. All rights reserved.
+              © 2026 Yomsan Motors Sdn. Bhd. All rights reserved.
             </span>
           </div>
           <div
