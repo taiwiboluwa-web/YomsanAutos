@@ -3,6 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X, MapPin, Clock, Phone, ChevronRight, MessageCircle, Filter, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { SmartCursor } from "./components/SmartCursor";
+// import { LuxuryShowroom } from "./components/LuxuryShowroom"; // Temporarily disabled
 import yomsanAuto2 from "../imports/yomsan_auto__2_-1.png";
 import yomsanAuto3 from "../imports/yomsan_auto__3_-1.png";
 
