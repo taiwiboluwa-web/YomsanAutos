@@ -10,7 +10,7 @@ type ViewMode='list'|'grid';
 
 export default function Inventory(){
   const [vehicles,setVehicles]=useState<Vehicle[]>(seedVehicles); const [filter,setFilter]=useState<Filter>('All');
-  const [viewMode,setViewMode]=useState<ViewMode>('list'); const [selected,setSelected]=useState<Vehicle|null>(null);
+  const [viewMode,setViewMode]=useState<ViewMode>('grid'); const [selected,setSelected]=useState<Vehicle|null>(null);
   useEffect(()=>{fetch('/api/vehicles').then(r=>r.ok?r.json():null).then(d=>Array.isArray(d?.vehicles)&&d.vehicles.length&&setVehicles(d.vehicles)).catch(()=>undefined)},[]);
   const filtered=useMemo(()=>vehicles.filter(v=>filter==='All'||(filter==='Available'?v.status==='Available':v.type===filter)),[vehicles,filter]);
   return <PageShell><section className="inventory inventory-page">
