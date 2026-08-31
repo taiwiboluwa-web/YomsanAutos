@@ -38,14 +38,15 @@ const sonataGreyRear = 'https://imgcdnblog.carbay.com/wp-content/uploads/2020/07
 const tacomaBlue = 'https://inventory.autoznetwork.com/16/65674/w_800%2Ch_600%2Cfit_cover%2Cpos_attention/6815795d4dc03.jpg';
 const tacomaBlueOfficial = 'https://media.toyota.ca/content/dam/media-toyota/toyota-models/tacoma/2019-2021-toyota-tacoma/IMG_1382.jpg';
 const tacomaBlack = 'https://static.cargurus.com/images/forsale/2026/05/17/01/18/2022_toyota_tacoma-pic-131219847761190473-1024x768.jpeg';
-const lexusWhite = 'https://hips.hearstapps.com/autoweek/assets/s3fs-public/2016_lexus_rx_350_005_3cab33?';
 const lexusWhiteExact = 'https://hips.hearstapps.com/autoweek/assets/s3fs-public/2016_lexus_rx_350_005_3cab3fa335162c2335af48894b52728ee7698eeb.jpg';
 const lexusWhiteRear = 'https://hips.hearstapps.com/autoweek/assets/s3fs-public/2016_lexus_rx_350_007_f6ad61482b815d8fec9ca0a44026e6d83e282f9e.jpg';
 const lexusBlack = 'https://img2.carmax.com/assets/28815986/hero.jpg?height=600&width=800';
 const lexusBlue = 'https://www.sayartii.com/uploads/cars/17592199565740/f47ec655867303610a0182fdd09026437fd94638_med.jpg';
-const santaFeWhite = 'https://static.cargurus.com/images/forsale/2026/02/14/07/05/2022_hyundai_santa_fe-pic-3410722865192520442-1024x768.jpeg';
-const santaFeWhiteStudio = 'https://www.groovecar.com/stock/images/color/2022/hyundai/santa-fe-plug-in-hybrid/awd-sel-convenience-4dr-crossover/2022-hyundai-santa-fe-plug-in-hybrid-awd-sel-convenience-4dr-crossover-quartz-white-composite-large.jpg';
-const camryWhite = 'https://doubleclutch.ca/wp-content/uploads/2017/10/IMG_1648.jpg';
+
+// Replaced broken/hotlink-prone sources with direct model photography that resolves reliably.
+const santaFeWhite = 'https://hyundainewspecs.com/wp-content/uploads/2021/03/2022-Hyundai-Santa-Fe-Exterior-1.jpg';
+const santaFeWhiteStudio = 'https://i.trse.ru/2020/08/msyI-scaled.jpeg';
+const camryWhite = 'https://images.caricos.com/t/toyota/2018_toyota_camry/images/2560x1440/2018_toyota_camry_63_2560x1440.jpg';
 const camryBlack = 'https://static.cargurus.com/images/site/2019/04/23/11/06/2018_toyota_camry_xse-pic-7647287773869276944-1600x1200.jpeg';
 const camryBlue = 'https://automanagerprodcdn.azureedge.net/wmphotos/034940/b9ee3ade41f54860bad1a2b12b3b964c/fd2415f208_1280.jpg';
 const camryWine = 'https://cdn.ebizautos.media/used-2018-toyota-camry-xsev6automatic-14395-22960575-4-640.jpg';
