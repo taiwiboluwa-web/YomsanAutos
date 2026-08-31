@@ -24,7 +24,6 @@ const porscheAlt = img('https://images.unsplash.com/photo-1614200187524-dc4b892a
 const mercedes = img('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=2000&q=88');
 const g63 = img('https://images.unsplash.com/photo-1520031441872-265e4ff70366?auto=format&fit=crop&w=2000&q=88');
 
-// Model-correct reference photography for the Yomsan inventory.
 const accordSport = 'https://images.dealersync.com/2074/Photos/1151857/20240626011726375140_image-5.jpg?_=43eaf64ca3928a3405712b75193a00f22a5d0400';
 const accordSportRear = 'https://www.groovecar.com/stock/images/color/2021/honda/accord/touring-4dr-sedan/2021-honda-accord-touring-4dr-sedan-crystal-black-pearl-composite-large.jpg';
 const rav4Red = 'https://superauto.wpcdn.pl/articles/61f1ddf2c8a36b5f56fe46b8bf55dc5b.jpg';
@@ -43,14 +42,13 @@ const lexusWhiteRear = 'https://hips.hearstapps.com/autoweek/assets/s3fs-public/
 const lexusBlack = 'https://img2.carmax.com/assets/28815986/hero.jpg?height=600&width=800';
 const lexusBlue = 'https://www.sayartii.com/uploads/cars/17592199565740/f47ec655867303610a0182fdd09026437fd94638_med.jpg';
 
-// Replaced broken/hotlink-prone sources with direct model photography that resolves reliably.
-const santaFeWhite = 'https://hyundainewspecs.com/wp-content/uploads/2021/03/2022-Hyundai-Santa-Fe-Exterior-1.jpg';
-const santaFeWhiteStudio = 'https://i.trse.ru/2020/08/msyI-scaled.jpeg';
-const camryWhite = 'https://images.caricos.com/t/toyota/2018_toyota_camry/images/2560x1440/2018_toyota_camry_63_2560x1440.jpg';
-const camryBlack = 'https://static.cargurus.com/images/site/2019/04/23/11/06/2018_toyota_camry_xse-pic-7647287773869276944-1600x1200.jpeg';
-const camryBlue = 'https://automanagerprodcdn.azureedge.net/wmphotos/034940/b9ee3ade41f54860bad1a2b12b3b964c/fd2415f208_1280.jpg';
-const camryWine = 'https://cdn.ebizautos.media/used-2018-toyota-camry-xsev6automatic-14395-22960575-4-640.jpg';
-const camryWineAngles = 'https://www.groovecar.com/stock/images/color/2021/toyota/camry/xse-4dr-sedan/2021-toyota-camry-xse-4dr-sedan-supersonic-red-w-midnight-black-roof-composite-large.jpg';
+// Stable Wikimedia Commons sources. These replace the previous hotlink-prone sources.
+const santaFeWhite = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/2022_Hyundai_Santa_Fe_(facelift),_front_4.23.22.jpg';
+const santaFeWhiteStudio = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/2022_Hyundai_Santa_Fe_2.5T_front.jpg';
+const camryWhite = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Toyota_Camry_(XV70)_XSE.jpg';
+const camryBlack = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Toyota_Camry_(XV70)_XSE_BACK.jpg';
+const camryBlue = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/19_Toyota_Camry_XSE.jpg';
+const camryWine = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Toyota_Camry_XSE_P4250819.jpg';
 
 const colors = (...names: string[]) => names.map((name, i) => ({ name, value: ['#111111','#f3f3ef','#234d82','#7a1f2b','#777777','#d65a45'][i % 6] }));
 
@@ -65,8 +63,8 @@ export const vehicles: Vehicle[] = [
   { id: 8, brand: 'Toyota', model: 'Tacoma', year: 2022, type: 'Pickup', status: 'Available', price: 48500, mileage: 31000, engine: '3.5L V6', hp: 278, hero: tacomaBlue, gallery: [tacomaBlue, tacomaBlueOfficial, tacomaBlack], colors: [{ name: 'White', value: '#f3f3ef' }, { name: 'Orange', value: '#e36a27' }, { name: 'Black', value: '#111111', image: tacomaBlack }, { name: 'Blue', value: '#263e91', image: tacomaBlue }], wheels: ['16” Alloy','17” TRD Alloy'], interiors: ['Black Fabric','Black SofTex'] },
   { id: 9, brand: 'Lexus', model: 'RX 350 Sport', year: 2017, type: 'SUV', status: 'Available', price: 36500, mileage: 48000, engine: '3.5L V6', hp: 295, hero: lexusWhiteExact, gallery: [lexusWhiteExact, lexusWhiteRear, lexusBlack, lexusBlue], colors: [{ name: 'White', value: '#f3f3ef', image: lexusWhiteExact }, { name: 'Black', value: '#111111', image: lexusBlack }, { name: 'Wine', value: '#7a1f2b' }, { name: 'Blue', value: '#183f70', image: lexusBlue }], wheels: ['19” Sport Alloy'], interiors: ['Black Leather','Parchment Leather'] },
   { id: 10, brand: 'Hyundai', model: 'Sonata', year: 2021, type: 'Sedan', status: 'Available', price: 29500, mileage: 39000, engine: '2.5L 4-Cylinder', hp: 191, hero: sonataGrey, gallery: [sonataGrey, sonataGreyRear], colors: [{ name: 'Grey', value: '#777777', image: sonataGrey }], wheels: ['18” Alloy'], interiors: ['Black'] },
-  { id: 11, brand: 'Hyundai', model: 'Santa Fe', year: 2022, type: 'SUV', status: 'Available', price: 41000, mileage: 27000, engine: '2.5L 4-Cylinder', hp: 191, hero: santaFeWhite, gallery: [santaFeWhite, santaFeWhiteStudio], colors: colors('White','Black','Grey'), wheels: ['19” Alloy'], interiors: ['Black Leather'] },
-  { id: 12, brand: 'Toyota', model: 'Camry XSE', year: 2021, type: 'Sedan', status: 'Available', price: 36500, mileage: 29000, engine: '3.5L V6', hp: 301, hero: camryWine, gallery: [camryWine, camryWineAngles], colors: [{ name: 'Wine', value: '#7a1f2b', image: camryWine }], wheels: ['19” XSE Alloy'], interiors: ['Black Leather'] },
+  { id: 11, brand: 'Hyundai', model: 'Santa Fe', year: 2022, type: 'SUV', status: 'Available', price: 41000, mileage: 27000, engine: '2.5L 4-Cylinder', hp: 191, hero: santaFeWhite, gallery: [santaFeWhite, santaFeWhiteStudio], colors: [{ name: 'White', value: '#f3f3ef', image: santaFeWhite }, { name: 'Black', value: '#111111' }, { name: 'Grey', value: '#777777' }], wheels: ['19” Alloy'], interiors: ['Black Leather'] },
+  { id: 12, brand: 'Toyota', model: 'Camry XSE', year: 2021, type: 'Sedan', status: 'Available', price: 36500, mileage: 29000, engine: '3.5L V6', hp: 301, hero: camryWine, gallery: [camryWine], colors: [{ name: 'Wine', value: '#7a1f2b', image: camryWine }], wheels: ['19” XSE Alloy'], interiors: ['Black Leather'] },
   { id: 13, brand: 'Toyota', model: 'Camry XSE', year: 2018, type: 'Sedan', status: 'Available', price: 31500, mileage: 52000, engine: '2.5L 4-Cylinder', hp: 203, hero: camryWhite, gallery: [camryWhite, camryBlack, camryBlue, camryWine], colors: [{ name: 'White', value: '#f3f3ef', image: camryWhite }, { name: 'Black', value: '#111111', image: camryBlack }, { name: 'Blue', value: '#234d82', image: camryBlue }, { name: 'Wine', value: '#7a1f2b', image: camryWine }], wheels: ['18” Alloy'], interiors: ['Black Leather','Red Leather'], specifications: { 'Engine': '2.5L 4-cylinder engine', 'Power': '203 horsepower', 'Transmission': '8-speed automatic transmission', 'Wheels': '18-inch alloy wheels', 'Infotainment': '7-inch touchscreen | Apple CarPlay & Android Auto', 'Connectivity': 'Bluetooth & keyless entry', 'Safety': 'Toyota Safety Sense: adaptive cruise control, lane departure warning, automatic emergency braking', 'Camera': 'Rearview camera', 'Start': 'Push button start' } }
 ];
 
