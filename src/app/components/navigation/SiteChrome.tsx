@@ -1,0 +1,39 @@
+import { useState } from 'react';
+import { ArrowUpRight, CalendarDays, Instagram, MapPin, Menu, MessageCircle, Phone, X } from 'lucide-react';
+
+export const whatsapp = 'https://wa.me/2348126507771';
+export const phone = 'tel:+2348126507771';
+export const maps = 'https://maps.app.goo.gl/amXuVpGiJFSiKFde8';
+export const instagram = 'https://www.instagram.com/yomsanautomobile';
+export const logo = '/src/y0msan.png';
+
+export function SiteNav() {
+  const [open, setOpen] = useState(false);
+  const links = [['Collection','/collection'],['Experience','/experience'],['Contact','/contact'],['Inventory','/inventory']];
+  return <header className="nav site-nav">
+    <a className="logo-link" href="/" aria-label="Yomsan Automobile home"><img src={logo} alt="Yomsan Automobile" /></a>
+    <nav className={open ? 'nav-links open' : 'nav-links'}>
+      {links.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}
+    </nav>
+    <div className="nav-actions">
+      <a href={whatsapp} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={14} /></a>
+      <button className="menu-toggle" onClick={() => setOpen(!open)} aria-label="Toggle menu">{open ? <X /> : <Menu />}</button>
+    </div>
+  </header>;
+}
+
+export function Footer() {
+  return <footer className="footer">
+    <div className="footer__top"><div className="footer-region"><p className="footer-label">Current Region / Language</p><div className="region-pill"><span>NG</span><strong>Nigeria / English</strong><button type="button">Change</button></div></div><a className="scroll-top" href="#top">Scroll up</a></div>
+    <div className="footer__grid">
+      <div><p className="footer-label">Locations &amp; Contacts</p><a className="footer-heading" href={whatsapp} target="_blank" rel="noreferrer">Get in touch <ArrowUpRight size={14}/></a><p>Egbeda, Lagos, Nigeria</p><p>+234 812 650 7771</p></div>
+      <div><p className="footer-label">Yomsan Automobile</p><a href="/collection">The Collection</a><a href="/inventory">Inventory</a><a href="/experience">The Experience</a><a href={maps} target="_blank" rel="noreferrer">Find our showroom</a></div>
+      <div><p className="footer-label">Connect</p><a href={instagram} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={14}/></a><a href={whatsapp} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={14}/></a><a href={phone}>Call Yomsan <ArrowUpRight size={14}/></a><a href={maps} target="_blank" rel="noreferrer">Google Maps <ArrowUpRight size={14}/></a></div>
+    </div>
+    <div className="footer__bottom"><div className="social-icons"><a href={instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={18}/></a><a href={whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp"><MessageCircle size={18}/></a><a href={maps} target="_blank" rel="noreferrer" aria-label="Location"><MapPin size={18}/></a><a href={phone} aria-label="Phone"><Phone size={18}/></a><a href={whatsapp} target="_blank" rel="noreferrer" aria-label="Book inspection"><CalendarDays size={18}/></a></div><small>© 2026 Yomsan Motors Sdn. Bhd. All rights reserved.</small><a href="/" className="footer-wordmark"><img src={logo} alt="Yomsan Automobile" /></a></div>
+  </footer>;
+}
+
+export function PageShell({ children }: { children: React.ReactNode }) {
+  return <main className="yomsan page-shell" id="top"><SiteNav />{children}<Footer /></main>;
+}
