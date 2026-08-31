@@ -1,7 +1,7 @@
 
   # yomsan autos
 
-  This is a code bundle for yomsan autos. The original project is available at https://www.figma.com/design/5ODhAiJdNJHhxjckwXVBWb/yomsan-autos.
+  This is a code bundle for yomsan autos. The original project is available at .
 
   ## Running the code
 
