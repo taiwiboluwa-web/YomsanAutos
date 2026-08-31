@@ -1,5 +1,5 @@
 import { list, put } from '@vercel/blob';
-import { vehicles as seedVehicles } from '../src/data/vehicles';
+import { vehicles as seedVehicles } from '../src/data/vehicles.js';
 
 const KEY = 'yomsan/data/vehicles.json';
 const auth = (req: Request) => {
@@ -12,11 +12,8 @@ async function readInventory() {
   const result = await list({ prefix: KEY, limit: 10 });
   const blob = result.blobs.find(item => item.pathname === KEY) ?? result.blobs[0];
   if (!blob) return seedVehicles;
-  try {
-    const response = await fetch(blob.url, { cache: 'no-store' });
-    const data = await response.json();
-    return Array.isArray(data?.vehicles) ? data.vehicles : seedVehicles;
-  } catch { return seedVehicles; }
+  try { const response = await fetch(blob.url, { cache: 'no-store' }); const data = await response.json(); return Array.isArray(data?.vehicles) ? data.vehicles : seedVehicles; }
+  catch { return seedVehicles; }
 }
 
 export default async function handler(req: Request) {
