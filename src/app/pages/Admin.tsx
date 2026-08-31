@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, CheckCircle2, ImagePlus, LogOut, Plus, Save, Trash2, XCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Eye, EyeOff, ImagePlus, LogOut, Plus, Save, Trash2, XCircle } from 'lucide-react';
 import type { Vehicle } from '../../data/vehicles';
 import { vehicles as seedVehicles } from '../../data/vehicles';
 
@@ -12,6 +12,7 @@ function ImagePreview({ src, label, onBroken }: { src: string; label: string; on
 
 export default function Admin() {
   const [password, setPassword] = useState(() => sessionStorage.getItem('yomsan-admin') || '');
+  const [showPassword, setShowPassword] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [items, setItems] = useState<Vehicle[]>(seedVehicles);
   const [selectedId, setSelectedId] = useState<number | null>(seedVehicles[0]?.id ?? null);
@@ -30,7 +31,7 @@ export default function Admin() {
   const setGallery = (value: string) => update({ gallery: [...new Set(value.split('\n').map(s => s.trim()).filter(Boolean))] });
   const galleryUrls = useMemo(() => selected?.gallery || [], [selected?.gallery]);
 
-  if (!authenticated) return <main className="admin-login"><div className="admin-login__box"><p className="admin-kicker">YOMSAN AUTOMOBILE</p><h1>Showroom Admin</h1><p>Manage live inventory stored in Neon.</p><form onSubmit={login}><label>Admin password<input autoFocus type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter admin password" /></label><button disabled={busy || !password}>{busy ? 'Checking…' : 'Enter admin'}</button></form>{status && <div className="admin-error">{status}</div>}</div></main>;
+  if (!authenticated) return <main className="admin-login"><div className="admin-login__box"><p className="admin-kicker">YOMSAN AUTOMOBILE</p><h1>Showroom Admin</h1><p>Manage live inventory stored in Neon.</p><form onSubmit={login}><label>Admin password<div className="admin-password-field"><input autoFocus type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter admin password" autoComplete="current-password" /><button type="button" className="admin-password-toggle" onClick={() => setShowPassword(value => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'} title={showPassword ? 'Hide password' : 'Show password'}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></label><button disabled={busy || !password}>{busy ? 'Checking…' : 'Enter admin'}</button></form>{status && <div className="admin-error">{status}</div>}</div></main>;
 
   return <main className="admin-shell"><aside className="admin-sidebar"><a href="/" className="admin-back"><ArrowLeft size={16} /> Public showroom</a><div className="admin-brand"><span>Y</span><div><b>YOMSAN</b><small>Neon Inventory Admin</small></div></div><button className="admin-add" onClick={addVehicle}><Plus size={17} /> Add vehicle</button><div className="admin-list">{items.map(v => <button className={v.id === selected?.id ? 'active' : ''} key={v.id} onClick={() => setSelectedId(v.id)}><span>{v.brand}</span><strong>{v.model}</strong><small>{v.status} · ₦{v.price.toLocaleString()}k</small></button>)}</div><button className="admin-logout" onClick={() => { sessionStorage.removeItem('yomsan-admin'); setAuthenticated(false); }}><LogOut size={16} /> Sign out</button></aside>
   <section className="admin-content"><header className="admin-top"><div><p>NEON INVENTORY / {String(items.length).padStart(2, '0')}</p><h1>{selected?.brand} <i>{selected?.model}</i></h1></div><button className="admin-publish" onClick={save} disabled={busy}><Save size={17} /> {busy ? 'Saving…' : 'Save to Neon'}</button></header>
