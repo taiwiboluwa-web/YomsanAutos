@@ -2,75 +2,75 @@
 
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: #0f172a;           /* Dark slate for high text readability */
+  --background: #f5f5f2;
+  --foreground: #111214;
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #111214;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #1E5EC2;              /* Your signature Yomsan brand blue */
+  --popover-foreground: #111214;
+  --primary: #0b2f72;
   --primary-foreground: #ffffff;
-  --secondary: #f8f9fa;            /* Soft off-white for structural panels */
-  --secondary-foreground: #495057;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #1E5EC2;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
+  --secondary: #ebeae5;
+  --secondary-foreground: #292a2d;
+  --muted: #e9e8e3;
+  --muted-foreground: #6c6c68;
+  --accent: #c9a86a;
+  --accent-foreground: #111214;
+  --destructive: #b42318;
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0;               /* Clean, subtle border separators */
+  --border: #d8d7d1;
   --input: #ffffff;
   --input-background: #ffffff;
-  --switch-background: #cbd5e1;
+  --switch-background: #b9b8b2;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #1E5EC2;
-  --chart-1: #1E5EC2;
-  --chart-2: #1753B2;
-  --chart-3: #1248a0;
-  --chart-4: #0e3d8e;
-  --chart-5: #0a327c;
-  --radius: 0.5rem;                /* Slightly increased rounding for modern cards */
+  --ring: #0b2f72;
+  --chart-1: #0b2f72;
+  --chart-2: #c9a86a;
+  --chart-3: #262a31;
+  --chart-4: #7a7b78;
+  --chart-5: #e8e7e1;
+  --radius: 0.15rem;
   --sidebar: #ffffff;
-  --sidebar-foreground: #0f172a;
-  --sidebar-primary: #1E5EC2;
+  --sidebar-foreground: #111214;
+  --sidebar-primary: #0b2f72;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f8f9fa;
-  --sidebar-accent-foreground: #495057;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #1E5EC2;
+  --sidebar-accent: #f0efe9;
+  --sidebar-accent-foreground: #292a2d;
+  --sidebar-border: #d8d7d1;
+  --sidebar-ring: #0b2f72;
 }
 
 .dark {
-  --background: #0b0f19;           /* Rich midnight canvas */
-  --foreground: #f8fafc;           /* Crisp off-white text */
-  --card: #131c2e;                 /* Elevated deep blue-gray card surfaces */
-  --card-foreground: #f8fafc;
-  --popover: #131c2e;
-  --popover-foreground: #f8fafc;
-  --primary: #1E5EC2;
-  --primary-foreground: #ffffff;
-  --secondary: #1e293b;            /* Darker accents for panels */
-  --secondary-foreground: #cbd5e1;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #38bdf8;               /* Lighter electric blue touch for dark contrast */
-  --accent-foreground: #0f172a;
-  --destructive: #f87171;
+  --background: #090a0c;
+  --foreground: #f4f1e9;
+  --card: #111316;
+  --card-foreground: #f4f1e9;
+  --popover: #111316;
+  --popover-foreground: #f4f1e9;
+  --primary: #d9b875;
+  --primary-foreground: #0b0c0e;
+  --secondary: #17191c;
+  --secondary-foreground: #d9d7d0;
+  --muted: #17191c;
+  --muted-foreground: #9b9b95;
+  --accent: #d9b875;
+  --accent-foreground: #0b0c0e;
+  --destructive: #f97066;
   --destructive-foreground: #ffffff;
-  --border: #1e293b;               /* Deep structural borders */
-  --input: #131c2e;
-  --input-background: #131c2e;
-  --switch-background: #334155;
-  --ring: #38bdf8;
-  --sidebar: #0d1527;
-  --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #1E5EC2;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1e293b;
-  --sidebar-accent-foreground: #cbd5e1;
-  --sidebar-border: #1e293b;
-  --sidebar-ring: #38bdf8;
+  --border: #2b2d30;
+  --input: #111316;
+  --input-background: #111316;
+  --switch-background: #36383c;
+  --ring: #d9b875;
+  --sidebar: #0d0e10;
+  --sidebar-foreground: #f4f1e9;
+  --sidebar-primary: #d9b875;
+  --sidebar-primary-foreground: #0b0c0e;
+  --sidebar-accent: #17191c;
+  --sidebar-accent-foreground: #d9d7d0;
+  --sidebar-border: #2b2d30;
+  --sidebar-ring: #d9b875;
 }
 
 @theme inline {
@@ -100,9 +100,9 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -115,58 +115,47 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
+  * { @apply border-border outline-ring/50; }
+  html { font-size: var(--font-size); scroll-behavior: smooth; scroll-padding-top: 88px; background: #090a0c; }
+  body { @apply bg-background text-foreground; margin: 0; min-width: 320px; font-family: 'Poppins', sans-serif; -webkit-font-smoothing: antialiased; }
+  body::selection { background: #d9b875; color: #090a0c; }
+  button { @apply cursor-pointer; }
+  a { text-decoration: none; }
+  img { display: block; max-width: 100%; }
+}
 
-  body {
-    @apply bg-background text-foreground transition-colors duration-200;
-  }
+/* YOMSAN showroom direction: editorial, restrained, automotive-first. */
+.luxury-card,
+.glass-card,
+.liquid-glass,
+.liquid-glass-strong {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
 
-  html {
-    font-size: var(--font-size);
-  }
+.luxury-card { background: #111316 !important; border: 1px solid #282a2d !important; }
+.luxury-card:hover { transform: translateY(-5px) scale(1.005) !important; border-color: rgba(217,184,117,.55) !important; }
+.glass-card { background: rgba(17,19,22,.82) !important; border: 1px solid #2a2c30 !important; backdrop-filter: blur(14px) !important; }
+.liquid-glass, .liquid-glass-strong { background: rgba(17,19,22,.88) !important; border: 1px solid #2a2c30 !important; backdrop-filter: blur(18px) !important; }
+.liquid-glass::before, .liquid-glass::after, .liquid-glass-strong::before, .liquid-glass-strong::after { display: none !important; }
 
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+/* Neutralize the old soft-gradient/glass aesthetic without touching component logic. */
+[class*="bg-gradient-to"], .liquid-blob { background-image: none !important; }
+.liquid-blob { opacity: .035 !important; filter: blur(90px); }
 
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+/* Automotive photography should dominate the page. */
+.luxury-card img { filter: saturate(.88) contrast(1.03); transition: transform .8s cubic-bezier(.2,.65,.2,1), filter .5s ease; }
+.luxury-card:hover img { transform: scale(1.045); filter: saturate(1) contrast(1.06); }
 
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+/* Gold becomes a detail, not a gradient. */
+.text-\[\#0E2F76\], .text-\[\#1E5EC2\] { color: #d9b875 !important; }
+.border-\[\#0E2F76\], .border-\[\#1E5EC2\] { border-color: #d9b875 !important; }
 
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+@media (max-width: 700px) {
+  html { scroll-padding-top: 72px; }
+  .luxury-card:hover { transform: none !important; }
+}
 
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-    @apply cursor-pointer;
-  }
-
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
