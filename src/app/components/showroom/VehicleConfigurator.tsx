@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowUpRight, Check, ChevronLeft, ChevronRight, MessageCircle, Phone, CalendarDays } from 'lucide-react';
+import { ArrowUpRight, CalendarDays, Check, ChevronLeft, ChevronRight, MessageCircle, Phone, X } from 'lucide-react';
 import { motion } from 'motion/react';
 import type { Vehicle } from '../../../data/vehicles';
 import { formatPrice } from '../../../data/vehicles';
@@ -12,44 +12,87 @@ export function VehicleConfigurator({ vehicle, onClose }: Props) {
   const [wheel, setWheel] = useState(0);
   const [interior, setInterior] = useState(0);
 
-  const image = useMemo(() => {
-    const colorImage = vehicle.colors[color]?.image;
-    if (colorImage) return colorImage;
-    return vehicle.gallery[galleryIndex];
-  }, [vehicle, galleryIndex, color]);
+  const gallery = vehicle.gallery.length ? vehicle.gallery : [vehicle.hero];
+  const activeColor = vehicle.colors[color];
+  const image = activeColor?.image || gallery[galleryIndex] || vehicle.hero;
+  const whatsapp = `https://wa.me/2348033090335?text=${encodeURIComponent(`Hello YOMSAN, I am interested in the ${vehicle.year} ${vehicle.brand} ${vehicle.model}. Exterior: ${activeColor?.name || 'Standard'}. Wheels: ${vehicle.wheels[wheel] || 'Standard'}. Interior: ${vehicle.interiors[interior] || 'Standard'}. Please send me availability and viewing details.`)}`;
 
-  const visualFilter = useMemo(() => {
-    const hue = [0, 0, -8, 5][color] ?? 0;
-    const brightness = interior === 1 ? 1.04 : 1;
-    const contrast = wheel === 1 ? 1.08 : 1.02;
-    return `saturate(${color === 0 ? 0.72 : 0.94}) hue-rotate(${hue}deg) brightness(${brightness}) contrast(${contrast})`;
-  }, [color, wheel, interior]);
+  const next = () => setGalleryIndex((i) => (i + 1) % gallery.length);
+  const prev = () => setGalleryIndex((i) => (i - 1 + gallery.length) % gallery.length);
 
-  const whatsapp = `https://wa.me/2348033090335?text=${encodeURIComponent(`Hello YOMSAN, I am interested in the ${vehicle.year} ${vehicle.brand} ${vehicle.model}. Exterior: ${vehicle.colors[color].name}. Wheels: ${vehicle.wheels[wheel]}. Interior: ${vehicle.interiors[interior]}. Please send me availability and viewing details.`)}`;
-  const next = () => setGalleryIndex((i) => (i + 1) % vehicle.gallery.length);
-  const prev = () => setGalleryIndex((i) => (i - 1 + vehicle.gallery.length) % vehicle.gallery.length);
+  const visualStyle = useMemo(() => ({
+    filter: color === 0 ? 'saturate(.92) contrast(1.02)' : 'saturate(1) contrast(1.02)',
+  }), [color]);
 
   return (
-    <motion.section className="configurator" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="configurator__visual">
-        <div className="configurator__topbar"><button className="ghost-button" onClick={onClose}><ChevronLeft size={17} /> Collection</button><span>YOMSAN / {vehicle.brand}</span></div>
-        <motion.img key={`${image}-${color}-${wheel}-${interior}`} src={image} alt={`${vehicle.brand} ${vehicle.model}`} style={{ filter: visualFilter }} initial={{ opacity: .15, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .45 }} />
-        <div className="visual-shade" />
-        <div className="configurator__caption"><span>{vehicle.year}</span><strong>{vehicle.model}</strong><small>{vehicle.status}</small></div>
-        <div className="gallery-controls"><button onClick={prev} aria-label="Previous image"><ChevronLeft /></button><span>{String(galleryIndex + 1).padStart(2, '0')} / {String(vehicle.gallery.length).padStart(2, '0')}</span><button onClick={next} aria-label="Next image"><ChevronRight /></button></div>
-      </div>
-      <aside className="configurator__panel">
-        <div className="panel-heading"><p>BUILD YOUR YOMSAN</p><h1>{vehicle.brand}<br /><em>{vehicle.model}</em></h1><div className="price-row"><strong>{formatPrice(vehicle.price)}</strong><span>Estimated vehicle price</span></div></div>
-        <ConfigGroup label="EXTERIOR" options={vehicle.colors.map(c => c.name)} value={color} onChange={setColor} swatches={vehicle.colors.map(c => c.value)} />
-        <ConfigGroup label="WHEELS" options={vehicle.wheels} value={wheel} onChange={setWheel} />
-        <ConfigGroup label="INTERIOR" options={vehicle.interiors} value={interior} onChange={setInterior} />
-        <div className="spec-strip"><div><b>{vehicle.hp}</b><span>HP</span></div><div><b>{vehicle.engine.split(' ')[0]}</b><span>ENGINE</span></div><div><b>{vehicle.mileage.toLocaleString()}</b><span>MILES</span></div></div>
-        <div className="enquiry-actions"><a className="primary-action" href={whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={17} /> Request this vehicle <ArrowUpRight size={16} /></a><div className="secondary-actions"><a href="tel:+2348033090335"><Phone size={15} /> Call YOMSAN</a><a href={whatsapp} target="_blank" rel="noreferrer"><CalendarDays size={15} /> Book inspection</a></div></div>
-      </aside>
+    <motion.section className="yomsan-configurator-reference" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <header className="reference-topbar">
+        <button className="reference-menu" onClick={onClose} aria-label="Close configurator"><X size={18} /></button>
+        <div className="reference-mark">Y</div>
+        <a href={whatsapp} target="_blank" rel="noreferrer" className="reference-package">Request a Package <ArrowUpRight size={13} /></a>
+      </header>
+
+      <main className="reference-main">
+        <section className="reference-info">
+          <div className="reference-title-row">
+            <div>
+              <p className="reference-kicker">{vehicle.year} / {vehicle.type}</p>
+              <h1>{vehicle.brand} <em>{vehicle.model}</em></h1>
+              <p className="reference-subtitle">Premium selection · Yomsan Automobile</p>
+            </div>
+          </div>
+
+          <div className="reference-colors">
+            <span>Colours</span>
+            <div>{vehicle.colors.map((c, i) => (
+              <button key={c.name} aria-label={`Select ${c.name}`} className={color === i ? 'active' : ''} onClick={() => { setColor(i); if (c.image) setGalleryIndex(0); }}>
+                <i style={{ background: c.value }} />
+              </button>
+            ))}</div>
+          </div>
+
+          <div className="reference-body-options">
+            <div className="reference-dots"><span className="active" /><span /><span /><span /></div>
+            <div className="reference-option-box">
+              <div><span>Vehicle details</span><strong>{vehicle.type}</strong></div>
+              <div className="reference-option-thumbs"><button className="selected">{vehicle.model}</button></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="reference-vehicle">
+          <div className="reference-image-wrap">
+            <motion.img key={`${image}-${galleryIndex}-${color}`} src={image} alt={`${vehicle.brand} ${vehicle.model}`} style={visualStyle} initial={{ opacity: 0, scale: .98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .35 }} />
+          </div>
+          <div className="reference-gallery">
+            <button onClick={prev} aria-label="Previous angle"><ChevronLeft size={16} /></button>
+            <div className="reference-gallery-track">
+              {gallery.slice(0, 8).map((src, i) => <button key={`${src}-${i}`} className={galleryIndex === i ? 'active' : ''} onClick={() => setGalleryIndex(i)}><img src={src} alt={`${vehicle.model} angle ${i + 1}`} /></button>)}
+            </div>
+            <button onClick={next} aria-label="Next angle"><ChevronRight size={16} /></button>
+          </div>
+        </section>
+
+        <aside className="reference-details">
+          <p className="reference-kicker">Yomsan Automobile</p>
+          <h2>Luxury in Motion.<br /><em>Confidence Delivered.</em></h2>
+          <p className="reference-copy">A carefully selected {vehicle.year} {vehicle.brand} {vehicle.model}, presented with the specification and finish you want.</p>
+          <ul>{Object.entries(vehicle.specifications || {}).slice(0, 5).map(([key, value]) => <li key={key}>{key}: {value}</li>)}{!vehicle.specifications && <><li>{vehicle.engine}</li><li>{vehicle.hp} horsepower</li><li>{vehicle.status} inventory</li><li>{vehicle.mileage.toLocaleString()} miles</li></>}</ul>
+          <div className="reference-price"><span>Starting from</span><strong>{formatPrice(vehicle.price)}</strong></div>
+          <a className="reference-contact" href={whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={15} /> Contact Yomsan <ArrowUpRight size={14} /></a>
+          <div className="reference-actions"><a href="tel:+2348033090335"><Phone size={14} /> Call</a><a href={whatsapp} target="_blank" rel="noreferrer"><CalendarDays size={14} /> Inspect</a></div>
+        </aside>
+      </main>
+
+      <footer className="reference-config-footer">
+        <ConfigGroup label="Wheels" options={vehicle.wheels} value={wheel} onChange={setWheel} />
+        <ConfigGroup label="Interior" options={vehicle.interiors} value={interior} onChange={setInterior} />
+        <div className="reference-counter">{String(galleryIndex + 1).padStart(2, '0')} / {String(Math.min(gallery.length, 8)).padStart(2, '0')}</div>
+      </footer>
     </motion.section>
   );
 }
 
-function ConfigGroup({ label, options, value, onChange, swatches }: { label: string; options: string[]; value: number; onChange: (v: number) => void; swatches?: string[] }) {
-  return <div className="config-group"><div className="config-group__label"><span>{label}</span><small>{options[value]}</small></div><div className="option-row">{options.map((option, i) => <button key={option} className={value === i ? 'selected' : ''} onClick={() => onChange(i)}>{swatches ? <i style={{ background: swatches[i] }} /> : null}<span>{option}</span>{value === i ? <Check size={14} /> : null}</button>)}</div></div>;
+function ConfigGroup({ label, options, value, onChange }: { label: string; options: string[]; value: number; onChange: (v: number) => void }) {
+  return <div className="reference-config-group"><span>{label}</span><div>{options.map((option, i) => <button key={option} className={value === i ? 'selected' : ''} onClick={() => onChange(i)}>{option}{value === i ? <Check size={12} /> : null}</button>)}</div></div>;
 }
